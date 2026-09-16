@@ -1,5 +1,6 @@
 body{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color:rgb(255, 250, 205);
 }
 
 .title-box{
@@ -7,4 +8,32 @@ body{
     justify-content: center;
     align-items: center;
     margin-top: 20px;
+    border: 2px solid black;
+    background-color: whitesmoke;
+}
+
+.input-box{
+    display: block;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+    padding: 25px;
+    border: 2px solid black;
+    background-color: whitesmoke;
+}
+
+.ToDoLoad{
+    display: flex;
+    margin-top: 25px;
+    padding: 25px;
+    border: 2px solid black;
+    background-color: whitesmoke;
+}
+
+.RemoveToDos{
+    display: flex;
+    margin-top: 25px;
+    padding: 25px;
+    border: 2px solid black;
+    background-color: whitesmoke;
 }
