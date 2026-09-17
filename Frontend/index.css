@@ -9,6 +9,7 @@ body{
     align-items: center;
     margin-top: 20px;
     border: 2px solid black;
+    box-shadow: 5px 5px 5px black;
     background-color: whitesmoke;
 }
 
@@ -19,6 +20,7 @@ body{
     margin-top: 25px;
     padding: 25px;
     border: 2px solid black;
+    box-shadow: 5px 5px 5px black;
     background-color: whitesmoke;
 }
 
@@ -27,6 +29,7 @@ body{
     margin-top: 25px;
     padding: 25px;
     border: 2px solid black;
+    box-shadow: 5px 5px 5px black;
     background-color: whitesmoke;
 }
 
@@ -35,5 +38,36 @@ body{
     margin-top: 25px;
     padding: 25px;
     border: 2px solid black;
+    box-shadow: 5px 5px 5px black;
+    background-color: whitesmoke;
+}
+
+.ToDosByCategory{
+    display: flex;
+    margin-top: 25px;
+    padding: 25px;
+    border: 2px solid black;
+    box-shadow: 5px 5px 5px black;
+    background-color: whitesmoke;
+}
+
+button{
+    justify-content: center;
+    border: 2px solid black;
+    box-shadow: 2px 2px 2px black;
+    background-color: whitesmoke;
+}
+
+select{
+    justify-content: center;
+    border: 2px solid black;
+    box-shadow: 2px 2px 2px black;
+    background-color: whitesmoke;
+}
+
+.toDoInputBox{
+    justify-content: center;
+    border: 2px solid black;
+    box-shadow: 2px 2px 2px black;
     background-color: whitesmoke;
 }

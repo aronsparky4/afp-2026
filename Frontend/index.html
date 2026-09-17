@@ -12,8 +12,8 @@
         </h1>
     </div>
     <div class="input-box">
-        <input type="text" id="toDoInput" placeholder="Írj ide valamit...." required>
-        <select id="fontossagi">
+        <input type="text" id="toDoInput" class="toDoInputBox" placeholder="Írj ide valamit...." required>
+        <select id="fontossagi" class="fontossagi">
             <option value="5">Rendkívül fontos</option>
             <option value="4">Nagyon fontos</option>
             <option value="3">Fontos</option>
@@ -31,6 +31,9 @@
     <div class="ToDoLoad">
         <ul id="toDoRender"></ul>
         <input type="checkbox" name="add" id="placeholder">ez egy placeholder
+    </div>
+    <div class="ToDosByCategory">
+        <h2>ToDo-k Kategoriánként</h2>
     </div>
     <div class="RemoveToDos">
         <button>Kijelöltek törlése</button>
