@@ -1,0 +1,17 @@
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color:rgba(0, 245, 245, 0.959);
+}
+
+.loginBox{
+    justify-content: center;
+    align-items: center;
+    border: 2px solid black;
+    box-shadow: 5px 5px 5px black;
+    background-color: whitesmoke;
+    width: 300px;
+    margin: auto;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    padding: 30px;
+}
