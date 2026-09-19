@@ -1,6 +1,6 @@
 <?php
-    require_once "db.php";
-    require_once "auth.php";
+    require_once "../Backend/db.php";
+    require_once "../Backend/auth.php";
 
     if($_SERVER["REQUEST_METHOD"] === "POST") {
         $username = trim($_POST["username"] ?? "");
@@ -18,7 +18,7 @@
             $lekerdezes->bind_param("sss", $username, $email, $hash);
             try {
                 if ($lekerdezes->execute()) {
-                    header("Location: login.php?signup=success");
+                    header("Location: ../Frontend/loginform.php?signup=success");
                     exit();
                 }
             } catch (mysqli_sql_exception $exception) {
@@ -54,10 +54,10 @@
         <input type="password" name="confirm_password" placeholder="Jelszó megerősítése" required>
         <br></br>
         <p style="color:red"><?= $hiba ?? '' ?></p>
-        <br><br>
-        <button type="submit">Regisztráció</button>
+        <input type="submit" name="" value="Regisztráció">
         <br></br>
-        <a href="loginform.html">Vissza a bejelentkezés oldalra</a>
+        <a href="loginform.php">Vissza a bejelentkezés oldalra</a>
+        <!-- <input type="submit" name="" value="Vissza a bejelentkezés oldalra" > -->
         </form>
     </div>
 </body>
