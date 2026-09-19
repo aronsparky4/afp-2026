@@ -1,3 +1,12 @@
+<?php
+    require_once "../Backend/db.php";
+    require_once "../Backend/auth.php";
+
+    OnlyLoggedIn();
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,21 +21,24 @@
         </h1>
     </div>
     <div class="input-box">
-        <input type="text" id="toDoInput" class="toDoInputBox" placeholder="Írj ide valamit...." required>
-        <select id="fontossagi" class="fontossagi">
-            <option value="5">Rendkívül fontos</option>
-            <option value="4">Nagyon fontos</option>
-            <option value="3">Fontos</option>
-            <option value="2">Nem annyira fontos</option>
-            <option value="1">Hanyatló</option>
-        </select>
-        <select id="category">
-            <option value="1">Munka</option>
-            <option value="2">Otthon</option>
-            <option value="3">Iskola, egyetem, stb.</option>
-            <option value="4">Egyéb</option>
-        </select>
-        <button>ToDo hozzáadása</button>
+        <form action="../Backend/addToDo.php" method="POST">
+            <input type="text" name="toDoInput" class="toDoInputBox" placeholder="Írj ide valamit...." required>
+            <select name="fontossagi" class="fontossagi">
+                <option value="5">Rendkívül fontos</option>
+                <option value="4">Nagyon fontos</option>
+                <option value="3">Fontos</option>
+                <option value="2">Nem annyira fontos</option>
+                <option value="1">Hanyatló</option>
+            </select>
+            <select name="category">
+                <option value="1">Munka</option>
+                <option value="2">Otthon</option>
+                <option value="3">Iskola, egyetem, stb.</option>
+                <option value="4">Egyéb</option>
+            </select>
+            <button type="submit">ToDo hozzáadása</button>
+        </form>
+
     </div>
     <div class="ToDoLoad">
         <ul id="toDoRender"></ul>
