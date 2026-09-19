@@ -9,8 +9,8 @@
         $fontossagi = $_POST["fontossagi"];
         $category = $_POST["category"];
 
-        $lekerdezes = $connection->prepare("INSERT INTO tasks (user_id, task, category, priority) VALUES (?, ?, ?, ?)");
-        $lekerdezes->bind_param("isss", $_SESSION['user_id'], $toDo, $category, $fontossagi);
+        $lekerdezes = $connection->prepare("INSERT INTO tasks (user_id, task, category_id, priority_id) VALUES (?, ?, ?, ?)");
+        $lekerdezes->bind_param("isis", $_SESSION['user_id'], $toDo, $category, $fontossagi);
         $lekerdezes->execute();
     }
     Header("Location: ../Frontend/index.php");

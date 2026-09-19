@@ -4,6 +4,13 @@
 
     OnlyLoggedIn();
 
+    $lekerdezes = $connection->prepare("SELECT tasks.id, tasks.task, categories.category_name, priorities.priority_name FROM tasks 
+                                        JOIN categories ON tasks.category_id = categories.id
+                                        JOIN priorities ON tasks.priority_id = priorities.id 
+                                        WHERE tasks.user_id = ?");
+    $lekerdezes->bind_param("i", $_SESSION["user_id"]);
+    $lekerdezes->execute();
+    $result = $lekerdezes->get_result();
 
 ?>
 
@@ -33,7 +40,7 @@
             <select name="category">
                 <option value="1">Munka</option>
                 <option value="2">Otthon</option>
-                <option value="3">Iskola, egyetem, stb.</option>
+                <option value="3">Iskola</option>
                 <option value="4">Egyéb</option>
             </select>
             <button type="submit">ToDo hozzáadása</button>
@@ -41,8 +48,21 @@
 
     </div>
     <div class="ToDoLoad">
-        <ul id="toDoRender"></ul>
-        <input type="checkbox" name="add" id="placeholder">ez egy placeholder
+        <?php if(!$result->num_rows): ?>
+            <p>Nincs még egyetlen ToDo sem. Adj hozzá egyet!</p>
+        <?php else: ?>
+            <?php foreach($result as $row): ?>
+                <div>
+                    <input type="checkbox" name="checked">
+                    <span><?= htmlspecialchars($row['task']) ?></span>
+                    <span>[<?= htmlspecialchars($row['category_name']) ?>]</span>
+                    <span>(<?= htmlspecialchars($row['priority_name']) ?>)</span>
+                    
+                    
+                </div>
+                <br>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
     <div class="ToDosByCategory">
         <h2>ToDo-k Kategoriánként</h2>
