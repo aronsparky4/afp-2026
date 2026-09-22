@@ -1,0 +1,74 @@
+<?php
+    require_once "../Backend/db.php";
+    require_once "../Backend/auth.php";
+
+    OnlyLoggedIn();
+
+    $lekerdezes = $connection->prepare("SELECT * FROM tasks WHERE tasks.user_id = ?");
+    $lekerdezes->bind_param("i", $_SESSION["user_id"]);
+    $lekerdezes->execute();
+    $result = $lekerdezes->get_result();
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>AFP 2026 - Todo Lista</title>
+</head>
+<body>
+    <div class="title-box">
+        <h1>To-Do Lista
+        </h1>
+    </div>
+    <div class="input-box">
+        <form action="../Backend/addToDo.php" method="POST">
+            <input type="text" name="toDoInput" class="toDoInputBox" placeholder="Írj ide valamit...." required>
+            <select name="fontossagi" class="fontossagi">
+                <option value="5">Rendkívül fontos</option>
+                <option value="4">Nagyon fontos</option>
+                <option value="3">Fontos</option>
+                <option value="2">Nem annyira fontos</option>
+                <option value="1">Hanyatló</option>
+            </select>
+            <select name="category">
+                <option value="1">Munka</option>
+                <option value="2">Otthon</option>
+                <option value="3">Iskola</option>
+                <option value="4">Egyéb</option>
+            </select>
+            <button type="submit">ToDo hozzáadása</button>
+        </form>
+
+    </div>
+    <div class="ToDoLoad">
+        <?php if(!$result->num_rows): ?>
+            <p>Nincs még egyetlen ToDo sem. Adj hozzá egyet!</p>
+        <?php else: ?>
+            <?php foreach($result as $row): ?>
+                <div>
+                    <input type="checkbox" name="checked">
+                    <span><?= htmlspecialchars($row['task']) ?></span>
+                    <span>[<?= htmlspecialchars($row['category_id']) ?>]</span>
+                    <span>(<?= htmlspecialchars($row['priority_id']) ?>)</span>
+                    
+                    
+                </div>
+                <br>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+    <div class="ToDosByCategory">
+        <h2>ToDo-k Kategoriánként</h2>
+    </div>
+    <div class="RemoveToDos">
+        <button>Kijelöltek törlése</button>
+        <button>Minden ToDo törlése</button>
+        <button>Elvégzett ToDo-k törlése</button>
+        <a href="loginform.html">Kijelentkezés</a>
+    </div>
+</body>
+</html>
