@@ -61,9 +61,6 @@
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
-    <div class="ToDosByCategory">
-        <h2>ToDo-k Kategoriánként</h2>
-    </div>
     <div class="RemoveToDos">
         <button>Kijelöltek törlése</button>
         <button>Minden ToDo törlése</button>
