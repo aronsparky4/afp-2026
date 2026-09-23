@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 19, 2026 at 10:42 AM
+-- Generation Time: Sep 23, 2026 at 10:24 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,6 +24,49 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `id` int(11) NOT NULL,
+  `category_name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `category_name`) VALUES
+(1, 'Munka'),
+(2, 'Otthon'),
+(3, 'Iskola'),
+(4, 'Egyéb');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `priorities`
+--
+
+CREATE TABLE `priorities` (
+  `id` int(11) NOT NULL,
+  `priority_name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `priorities`
+--
+
+INSERT INTO `priorities` (`id`, `priority_name`) VALUES
+(1, 'Hanyatló'),
+(2, 'Nem annyira fontos'),
+(3, 'Fontos'),
+(4, 'Nagyon fontos'),
+(5, 'Rendkívül fontos');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tasks`
 --
 
@@ -31,11 +74,21 @@ CREATE TABLE `tasks` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `task` varchar(500) NOT NULL,
-  `category` varchar(50) NOT NULL,
-  `priority` varchar(50) NOT NULL,
+  `category_id` int(50) NOT NULL,
+  `priority_id` int(50) NOT NULL,
   `is_done` tinyint(4) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tasks`
+--
+
+INSERT INTO `tasks` (`id`, `user_id`, `task`, `category_id`, `priority_id`, `is_done`, `created_at`) VALUES
+(6, 6, 'test', 1, 5, 0, '2026-09-19 09:43:02'),
+(7, 6, 'test', 3, 5, 0, '2026-09-19 09:43:10'),
+(8, 6, 'sadasd', 4, 5, 0, '2026-09-19 09:53:58'),
+(9, 9, 'test', 2, 4, 0, '2026-09-19 19:54:20');
 
 -- --------------------------------------------------------
 
@@ -56,11 +109,24 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`) VALUES
 (4, 'GR', 'NEM@nem.com', '$2y$10$ARngySZNmDUQdORNs4PIFef91WV9prkzNcL4SLPQoR0soBIftsK3C'),
-(6, 'gg', 'groland925@gmail.com', '$2y$10$PRPM7v6Oq/bVsQEPHTcmbeKdC3F53q8RSS6jv07UXd.L/.xjYEEq6');
+(6, 'gg', 'groland925@gmail.com', '$2y$10$PRPM7v6Oq/bVsQEPHTcmbeKdC3F53q8RSS6jv07UXd.L/.xjYEEq6'),
+(9, 'peti', 'peti@gmail.com', '$2y$10$SDU..yYwSEwOxPuhCBu6zenoh3j.41huHVOHUEDLthCcZshyEbNmK');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `priorities`
+--
+ALTER TABLE `priorities`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `tasks`
@@ -81,16 +147,28 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `priorities`
+--
+ALTER TABLE `priorities`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
