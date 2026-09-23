@@ -4,7 +4,10 @@
 
     OnlyLoggedIn();
 
-    $lekerdezes = $connection->prepare("SELECT * FROM tasks WHERE tasks.user_id = ?");
+    $lekerdezes = $connection->prepare("SELECT tasks.id, tasks.task, categories.category_name, priorities.priority_name FROM tasks 
+                                        JOIN categories ON tasks.category_id = categories.id
+                                        JOIN priorities ON tasks.priority_id = priorities.id 
+                                        WHERE tasks.user_id = ?");
     $lekerdezes->bind_param("i", $_SESSION["user_id"]);
     $lekerdezes->execute();
     $result = $lekerdezes->get_result();
@@ -52,8 +55,8 @@
                 <div>
                     <input type="checkbox" name="checked">
                     <span><?= htmlspecialchars($row['task']) ?></span>
-                    <span>[<?= htmlspecialchars($row['category_id']) ?>]</span>
-                    <span>(<?= htmlspecialchars($row['priority_id']) ?>)</span>
+                    <span>[<?= htmlspecialchars($row['category_name']) ?>]</span>
+                    <span>(<?= htmlspecialchars($row['priority_name']) ?>)</span>
                     
                     
                 </div>
