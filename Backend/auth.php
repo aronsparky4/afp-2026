@@ -15,7 +15,7 @@
             {
                 //This will return the user to the given html page 
                 //If we dont have a "login.php" page make one or change it to a html where the user can make an account/log in
-                header("Location: login.html");
+                header("Location: loginform.php");
                 exit();
             }
     }
