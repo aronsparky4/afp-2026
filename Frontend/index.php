@@ -66,7 +66,9 @@
     </div>
     <div class="RemoveToDos">
         <button>Kijelöltek törlése</button>
+        <br></br>
         <button>Minden ToDo törlése</button>
+        <br></br>
         <button>Elvégzett ToDo-k törlése</button>
         <a href="loginform.php">Kijelentkezés</a>
     </div>
