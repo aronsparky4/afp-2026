@@ -57,16 +57,14 @@
                     <span><?= htmlspecialchars($row['task']) ?></span>
                     <span>[<?= htmlspecialchars($row['category_name']) ?>]</span>
                     <span>(<?= htmlspecialchars($row['priority_name']) ?>)</span>
-                    
-                    
+                    <button>Késznek jelölés</button>
+                    <button>ToDo törlése</button>     
                 </div>
                 <br>
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
     <div class="RemoveToDos">
-        <button>Kijelöltek törlése</button>
-        <br></br>
         <button>Minden ToDo törlése</button>
         <br></br>
         <button>Elvégzett ToDo-k törlése</button>
