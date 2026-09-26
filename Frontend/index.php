@@ -4,7 +4,7 @@
 
     OnlyLoggedIn();
 
-    $lekerdezes = $connection->prepare("SELECT tasks.id, tasks.task, categories.category_name, priorities.priority_name FROM tasks 
+    $lekerdezes = $connection->prepare("SELECT tasks.id, tasks.task, categories.category_name, priorities.priority_name, tasks.is_done FROM tasks 
                                         JOIN categories ON tasks.category_id = categories.id
                                         JOIN priorities ON tasks.priority_id = priorities.id 
                                         WHERE tasks.user_id = ?");
@@ -23,9 +23,10 @@
     <title>AFP 2026 - Todo Lista</title>
 </head>
 <body>
+    <!-- Teszteléshez -->
+    <?= "Üdvözlünk, " . htmlspecialchars($_SESSION["username"]) . "!"; ?>
     <div class="title-box">
-        <h1>To-Do Lista
-        </h1>
+        <h1>To-Do Lista</h1>
     </div>
     <div class="input-box">
         <form action="../Backend/addToDo.php" method="POST">
@@ -48,27 +49,42 @@
 
     </div>
     <div class="ToDoLoad">
+        <h1>ToDo-k</h1>
+        <?php if(isset($_GET['delete']) && $_GET['delete'] == 'success'): ?>
+            <p style="color:green">Sikeresen törölted a ToDo-t!</p>
+        <?php endif; ?>
         <?php if(!$result->num_rows): ?>
             <p>Nincs még egyetlen ToDo sem. Adj hozzá egyet!</p>
         <?php else: ?>
             <?php foreach($result as $row): ?>
                 <div>
-                    <input type="checkbox" name="checked">
+                    <input type="checkbox" name="is_done" style="pointer-events: none;" <?= $row['is_done'] ? 'checked' : '' ?>>
                     <span><?= htmlspecialchars($row['task']) ?></span>
                     <span>[<?= htmlspecialchars($row['category_name']) ?>]</span>
                     <span>(<?= htmlspecialchars($row['priority_name']) ?>)</span>
-                    <button>Késznek jelölés</button>
-                    <button>ToDo törlése</button>     
+                    <form action="../Backend/isDone.php" method="POST">
+                        <input type="hidden" name="is_done" value="<?= $row['is_done'] ? 0 : 1 ?>">
+                        <input type="hidden" name="task_id" value="<?= $row['id'] ?>">
+                        <button type="submit">Késznek jelölés</button>
+                    </form>
+                    <form action="../Backend/deleteToDo.php" method="POST">
+                        <input type="hidden" name="task_id" value="<?= $row['id'] ?>">
+                        <button type="submit">ToDo törlése</button>
+                    </form>
                 </div>
                 <br>
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
     <div class="RemoveToDos">
-        <button>Minden ToDo törlése</button>
+        <form action="../Backend/deleteAllToDo.php" method="POST">
+            <button type="submit">Minden ToDo törlése</button>
+        </form>
         <br></br>
-        <button>Elvégzett ToDo-k törlése</button>
-        <a href="loginform.php">Kijelentkezés</a>
+        <form action="../Backend/deleteDoneToDos.php" method="POST">
+            <button type="submit">Elvégzett ToDo-k törlése</button>
+        </form>
+        <a href="../Backend/logout.php">Kijelentkezés</a>
     </div>
 </body>
 </html>
