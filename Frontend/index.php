@@ -24,9 +24,13 @@
 </head>
 <body>
     <!-- Teszteléshez -->
-    <?= "Üdvözlünk, " . htmlspecialchars($_SESSION["username"]) . "!"; ?>
+    
     <div class="title-box">
         <h1>To-Do Lista</h1>
+        <div class="userinfo">
+            <h3><?= "Üdvözlünk, " . htmlspecialchars($_SESSION["username"]) . "!"; ?></h3>
+            <h3>|<a href="../Backend/logout.php">Kijelentkezés</a></h3>
+        </div>
     </div>
     <div class="input-box">
         <form action="../Backend/addToDo.php" method="POST">
@@ -84,7 +88,6 @@
         <form action="../Backend/deleteDoneToDos.php" method="POST">
             <button type="submit">Elvégzett ToDo-k törlése</button>
         </form>
-        <a href="../Backend/logout.php">Kijelentkezés</a>
     </div>
 </body>
 </html>
