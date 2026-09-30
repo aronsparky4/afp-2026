@@ -15,7 +15,7 @@
         $fontossagi = intval($_POST["fontossagi"]);
         $category = intval($_POST["category"]);
 
-        $lekerdezes = $connection->prepare("SELECT * FROM tasks WHERE user_id = ? AND task = ? and category_id = ? AND priority_id = ?");
+        $lekerdezes = $connection->prepare("SELECT id FROM tasks WHERE user_id = ? AND task = ? and category_id = ? AND priority_id = ?");
         $lekerdezes->bind_param("isii", $_SESSION['user_id'], $toDo, $category, $fontossagi);
         $lekerdezes->execute();
         $result = $lekerdezes->get_result();
