@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 23, 2026 at 10:24 AM
+-- Generation Time: Sep 30, 2026 at 01:40 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -80,16 +80,6 @@ CREATE TABLE `tasks` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `tasks`
---
-
-INSERT INTO `tasks` (`id`, `user_id`, `task`, `category_id`, `priority_id`, `is_done`, `created_at`) VALUES
-(6, 6, 'test', 1, 5, 0, '2026-09-19 09:43:02'),
-(7, 6, 'test', 3, 5, 0, '2026-09-19 09:43:10'),
-(8, 6, 'sadasd', 4, 5, 0, '2026-09-19 09:53:58'),
-(9, 9, 'test', 2, 4, 0, '2026-09-19 19:54:20');
-
 -- --------------------------------------------------------
 
 --
@@ -100,17 +90,16 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `is_admin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`) VALUES
-(4, 'GR', 'NEM@nem.com', '$2y$10$ARngySZNmDUQdORNs4PIFef91WV9prkzNcL4SLPQoR0soBIftsK3C'),
-(6, 'gg', 'groland925@gmail.com', '$2y$10$PRPM7v6Oq/bVsQEPHTcmbeKdC3F53q8RSS6jv07UXd.L/.xjYEEq6'),
-(9, 'peti', 'peti@gmail.com', '$2y$10$SDU..yYwSEwOxPuhCBu6zenoh3j.41huHVOHUEDLthCcZshyEbNmK');
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `is_admin`) VALUES
+(12, 'Admin', 'admin@admin', '$2y$10$fblBUDxAiNtQEFLDUk9K6uOtQI8ZttL0Yco4hz4hRRY61YCfR4zJe', 1);
 
 --
 -- Indexes for dumped tables
@@ -133,14 +122,16 @@ ALTER TABLE `priorities`
 --
 ALTER TABLE `tasks`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD UNIQUE KEY `unique_user_task` (`user_id`,`task`,`category_id`,`priority_id`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`);
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `username_2` (`username`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -162,13 +153,13 @@ ALTER TABLE `priorities`
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
