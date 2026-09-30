@@ -5,24 +5,34 @@
     if($_SERVER["REQUEST_METHOD"] === "POST") {
         $username = trim($_POST["username"] ?? "");
         $email = trim($_POST["email"] ?? "");
-        $password = trim($_POST["password"] ?? "");
-        $confirmPassword = trim($_POST["confirm_password"] ?? "");
+        $password = $_POST["password"] ?? "";
+        $confirmPassword = $_POST["confirm_password"] ?? "";
 
-        if ($username === "" || $email === "" || $password === "" || $confirmPassword === "") {
+        if (empty($username) || empty($email) || empty($password) || empty($confirmPassword)) {
             $hiba = "Minden mező kitöltése kötelező.";
         } elseif ($password !== $confirmPassword) {
             $hiba = "A jelszavak nem egyeznek.";
         } else {
-            $hash = password_hash($password, PASSWORD_DEFAULT);
-            $lekerdezes = $connection->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
-            $lekerdezes->bind_param("sss", $username, $email, $hash);
-            try {
-                if ($lekerdezes->execute()) {
-                    header("Location: ../Frontend/loginform.php?signup=success");
-                    exit();
+
+            $lekerdezes = $connection->prepare("SELECT id FROM users WHERE username = ? OR email = ?");
+            $lekerdezes->bind_param("ss", $username, $email);
+            $lekerdezes->execute();
+            $result = $lekerdezes->get_result();
+
+            if ($result->num_rows > 0) {
+                $hiba = "Ez az felhasználónév vagy e-mail cím már regisztrált.";
+            } else {
+                $hash = password_hash($password, PASSWORD_DEFAULT);
+                $lekerdezes = $connection->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+                $lekerdezes->bind_param("sss", $username, $email, $hash);
+                try {
+                    if ($lekerdezes->execute()) {
+                        header("Location: ../Frontend/loginform.php?signup=success");
+                        exit();
+                    }
+                } catch (mysqli_sql_exception $exception) {
+                    $hiba = "Adatbázis hiba: " . $exception->getMessage();
                 }
-            } catch (mysqli_sql_exception $exception) {
-                $hiba = "Adatbázis hiba: " . $exception->getMessage();
             }
         }
         
