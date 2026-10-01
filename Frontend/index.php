@@ -68,7 +68,12 @@
         <h1>To-Do Lista</h1>
         <div class="userinfo">
             <h3><?= "Üdvözlünk, " . htmlspecialchars($_SESSION["username"]) . "!"; ?></h3>
-            <h3>|<a href="../Backend/logout.php">Kijelentkezés</a></h3>
+            <select id="userOptions" onchange="handleUserOptionChange(this)">
+                <option value="">Opciók</option>
+                <option value="logOut">Kijelentkezés</option>
+                <option value="changePassword">Jelszó módosítása</option>
+                <option value="DragDropPage">Drag & Drop oldalra</option>
+            </select>
         </div>
     </div>
     <div class="input-box">
@@ -126,6 +131,23 @@
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
+    <div class="ToDoLoad">
+        <h1>Kész ToDo-k</h1>
+        <?php foreach($result as $row): ?>
+            <?php if($row['is_done']): ?>
+                <div>
+                    <span><?= htmlspecialchars($row['task']) ?></span>
+                    <span>[<?= htmlspecialchars($row['category_name']) ?>]</span>
+                    <span>(<?= htmlspecialchars($row['priority_name']) ?>)</span>
+                    <form action="../Backend/deleteToDo.php" method="POST">
+                        <input type="hidden" name="task_id" value="<?= $row['id'] ?>">
+                        <button type="submit">ToDo törlése</button>
+                    </form>
+                </div>
+                <br>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
     <div class="RemoveToDos">
         <form action="../Backend/deleteAllToDo.php" method="POST">
             <button type="submit">Minden ToDo törlése</button>
@@ -135,5 +157,6 @@
             <button type="submit">Elvégzett ToDo-k törlése</button>
         </form>
     </div>
+    <script src="../Frontend/index.js"></script>
 </body>
 </html>
