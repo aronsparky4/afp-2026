@@ -15,7 +15,14 @@
         } else {
             $lekerdezes = $connection->prepare("UPDATE tasks SET is_done = 1 WHERE id = ?");
             $lekerdezes->bind_param("i", $task_id);
-            $lekerdezes->execute();
+            try {if ($lekerdezes->execute()) {
+                header("Location: ../Frontend/index.php?message=success");
+                exit();
+                }
+            } catch (mysqli_sql_exception $exception) {
+                header("Location: ../Frontend/index.php?error=error");
+                $hiba = "Adatbázis hiba: " . $exception->getMessage();
+            }
         }
     }
     Header("Location: ../Frontend/index.php");

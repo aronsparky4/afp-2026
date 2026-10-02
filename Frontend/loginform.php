@@ -1,41 +1,3 @@
-<?php
-    require_once "../Backend/db.php";
-    require_once "../Backend/auth.php";
-
-    if(isset($_GET['signup']) && $_GET['signup'] == 'success'):
-        $signup="Sikeres regisztráció! Lépjen be fiókjába.";
-    endif;
-
-    if($_SERVER["REQUEST_METHOD"] === "POST")
-        {
-            $username_or_email = trim(($_POST["username_or_email"] ?? ""));
-            $password = trim(($_POST["password"] ?? ""));
-
-            $lekerdezes = $connection->prepare("SELECT * FROM users WHERE username = ? OR email = ?");
-            $lekerdezes->bind_param("ss", $username_or_email, $username_or_email);
-            $lekerdezes->execute();
-
-            $result = $lekerdezes->get_result();
-            $user = $result->fetch_assoc();
-
-            if($user && password_verify($password, $user["password"]))
-            {
-                $_SESSION["user_id"] = $user["id"];
-                $_SESSION["username"] = $user["username"];
-
-                header("Location: index.php");
-                exit();
-
-            }
-            else
-            {
-                $hiba = "Hibás felhasználónév vagy jelszó.";
-            }
-        }
-    
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,18 +8,45 @@
 </head>
 <body>
     <div class="loginBox">
-        <form method="POST">
+
+        <form action="..\Backend\login.php" method="POST">
             <h2>Bejelentkezés</h2>
-            <p><?= $signup ?? '' ?></p>
+            <?php if (isset($_GET['message']) && $_GET['message'] === 'success'): ?>
+                <p style="color:green">
+                    Sikeres regisztráció! Lépjen be fiókjába.
+                </p>
+            <?php endif; ?>
+            <?php if (isset($_GET['message']) && $_GET['message'] === 'passwordchanged'): ?>
+                <p style="color:green">
+                    A jelszó sikeresen megváltozott. Kérlek jelentkezz be újra.
+                </p>
+            <?php endif; ?>
             <h3>Felhasználónév vagy e-mail cím</h3>
             <input type="text" name="username_or_email" placeholder="Felhasználónév vagy e-mail cím" required>
             <h3>Jelszó</h3>
             <input type="password" name="password" placeholder="Jelszó" required>
             <br></br>
-            <p style="color:red"><?= $hiba ?? '' ?></p>
+            <?php if (isset($_GET['error'])): ?>
+                <p style="color:red">
+                    <?php
+                        switch ($_GET['error']) {
+                            case 'missing':
+                                echo "Minden mező kitöltése kötelező.";
+                                break;
+                            case 'invalidcredentials':
+                                echo "Hibás felhasználónév vagy jelszó.";
+                                break;
+                            case 'error':
+                                echo "Hiba történt a bejelentkezés során. Kérlek próbáld újra.";
+                                break;
+                            default:
+                                echo "Ismeretlen hiba történt.";
+                        }
+                    ?>
+                </p>
+            <?php endif; ?>
             <input type="submit" name="" value="Bejelentkezés">
             <a href="registerform.php">Regisztráció</a>
-            <!-- <input type="submit" name="" value="Regisztráció"> -->
         </form>
     </div>
 </body>

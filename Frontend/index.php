@@ -104,18 +104,34 @@
         </div>
     </div>
     <div class="input-box">
-        <?php if(isset($_GET['hiba']) && $_GET['hiba'] == 'missing'): ?>
-            <p style="color:red">Minden mező kitöltése kötelező!</p>
+        <?php if (isset($_GET['hiba'])): ?>
+            <p style="color:red">
+                <?php
+                    switch ($_GET['hiba']) {
+                        case 'missing':
+                            echo "Minden mező kitöltése kötelező.";
+                            break;
+                        case 'empty':
+                            echo "A ToDo mező nem lehet üres!";
+                            break;
+                        case 'exists':
+                            echo "Ez a ToDo már létezik!";
+                            break;
+                        case 'invalid':
+                            echo "Érvénytelen adatok!";
+                            break;
+                        case 'error':
+                            echo "Hiba történt a ToDo hozzáadása során. Kérlek próbáld újra.";
+                            break;
+                        default:
+                            echo "Ismeretlen hiba történt.";
+                    }
+                ?>
+            </p>
         <?php endif; ?>
-        <?php if(isset($_GET['hiba']) && $_GET['hiba'] == 'empty'): ?>
-            <p style="color:red">A ToDo mező nem lehet üres!</p>
-        <?php endif; ?>
-        <?php if(isset($_GET['hiba']) && $_GET['hiba'] == 'exists'): ?>
-            <p style="color:red">Ez a ToDo már létezik!</p>
-        <?php endif; ?>
-        <?php if(isset($_GET['hiba']) && $_GET['hiba'] == 'invalid'): ?>
-            <p style="color:red">Érvénytelen adatok!</p>
-        <?php endif; ?>
+        <?php if (isset($_GET['success']) && $_GET['success'] === 'passwordchanged'): ?>
+            <p style="color:green">Sikeresen megváltoztattad a jelszavad!</p>
+        <?php endif; ?> 
         <form action="../Backend/addToDo.php" method="POST">
             <input type="text" name="toDoInput" class="toDoInputBox" placeholder="Írj ide valamit...." required>
             <select name="fontossagi" class="fontossagi">
@@ -160,6 +176,7 @@
         <?php else: ?>
             <?php foreach($result as $row): ?>
                 <div>
+                    <!-- Szeretném jelezni hogy adatok megjelenítése NEM backend munkája, hanem frontendé. A backend csak az adatokat adja át a frontendnek, a frontend pedig megjeleníti azokat. -->
                     <!-- Ha azt akarjuk, hogy a ToDo késznek legyen jelölve, akkor a checkbox legyen bejelölve
                         Így szét lehet választani a kész és a nem kész ToDo-kat egy gyors <?php if($row['is_done']) ?> segítségével, és a felhasználó is láthatja, hogy melyik ToDo van kész állapotban. 
                         Ezt lehet alkalmazni kategóriákra és fontosságra is pl:  <?php if($row['category_id'] === 1) ?>-->

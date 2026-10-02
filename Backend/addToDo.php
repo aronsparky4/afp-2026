@@ -38,6 +38,14 @@
         } else {
             $lekerdezes = $connection->prepare("INSERT INTO tasks (user_id, task, category_id, priority_id) VALUES (?, ?, ?, ?)");
             $lekerdezes->bind_param("isis", $_SESSION['user_id'], $toDo, $category, $fontossagi);
+            try {if ($lekerdezes->execute()) {
+                header("Location: ../Frontend/index.php?message=success");
+                exit();
+                }
+            } catch (mysqli_sql_exception $exception) {
+                header("Location: ../Frontend/index.php?error=error");
+                $hiba = "Adatbázis hiba: " . $exception->getMessage();
+            }
             $lekerdezes->execute();
         }
     }
