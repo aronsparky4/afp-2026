@@ -3,15 +3,19 @@
     require_once "../Backend/auth.php";
 
     if($_SERVER["REQUEST_METHOD"] === "POST") {
-        $username = trim($_POST["username"] ?? "");
-        $email = trim($_POST["email"] ?? "");
-        $password = $_POST["password"] ?? "";
-        $confirmPassword = $_POST["confirm_password"] ?? "";
+        $username = trim($_POST["username"] ?? null);
+        $email = trim($_POST["email"] ?? null);
+        $password = $_POST["password"] ?? null;
+        $confirmPassword = $_POST["confirm_password"] ?? null;
 
-        if (empty($username) || empty($email) || empty($password) || empty($confirmPassword)) {
+        if (is_null($username) || is_null($email) || is_null($password) || is_null($confirmPassword)) {
             $hiba = "Minden mező kitöltése kötelező.";
         } elseif ($password !== $confirmPassword) {
             $hiba = "A jelszavak nem egyeznek.";
+        } elseif (strlen($password) < 8 || strlen($password) > 64) {
+            $hiba = "A jelszónak legalább 8 és legfeljebb 64 karakter hosszúnak kell lennie.";
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $hiba = "Érvénytelen e-mail cím.";
         } else {
 
             $lekerdezes = $connection->prepare("SELECT id FROM users WHERE username = ? OR email = ?");
@@ -59,9 +63,9 @@
         <h3>E-mail cím</h3>
         <input type="email" name="email" placeholder="E-mail cím" required>
         <h3>Jelszó</h3>
-        <input type="password" name="password" placeholder="Jelszó" required>
+        <input type="password" name="password" placeholder="Jelszó" minlength="8" maxlength="64" required>
         <h3>Jelszó megerősítése</h3>
-        <input type="password" name="confirm_password" placeholder="Jelszó megerősítése" required>
+        <input type="password" name="confirm_password" placeholder="Jelszó megerősítése" minlength="8" maxlength="64" required>
         <br></br>
         <p style="color:red"><?= $hiba ?? '' ?></p>
         <input type="submit" name="" value="Regisztráció">
