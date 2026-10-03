@@ -15,8 +15,11 @@
             {
                 //This will return the user to the given html page 
                 //If we dont have a "login.php" page make one or change it to a html where the user can make an account/log in
-                header("Location: loginform.php");
+                header("Location: ../Frontend/loginform.php");
                 exit();
             }
     }
+    header("Cache-Control: no-cache, no-store, must-revalidate");
+    header("Pragma: no-cache");
+    header("Expires: 0");
 ?>

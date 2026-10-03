@@ -24,7 +24,7 @@
             <h3>Felhasználónév vagy e-mail cím</h3>
             <input type="text" name="username_or_email" placeholder="Felhasználónév vagy e-mail cím" required>
             <h3>Jelszó</h3>
-            <input type="password" name="password" placeholder="Jelszó" required>
+            <input type="password" name="password" placeholder="Jelszó" minlength="8" maxlength="64" required>
             <br></br>
             <?php if (isset($_GET['error'])): ?>
                 <p style="color:red">

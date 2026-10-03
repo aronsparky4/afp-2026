@@ -41,7 +41,7 @@
             </p>
         <?php endif; ?>
         <form action="../Backend/changePassword.php" method="POST">
-            <input type="password" name="old_Password" placeholder="Régi jelszó" required>
+            <input type="password" name="old_Password" placeholder="Régi jelszó" minlength="8" maxlength="64" required>
             <input type="password" name="new_Password" placeholder="Új jelszó" minlength="8" maxlength="64" required>
             <input type="password" name="confirm_Password" placeholder="Új jelszó megerősítése" minlength="8" maxlength="64" required>
             <button type="submit">Jelszó módosítása</button>
