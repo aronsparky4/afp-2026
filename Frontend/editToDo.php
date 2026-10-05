@@ -18,7 +18,7 @@
         <h1>ToDo Szerkesztése</h1>
         <form action="../Backend/editToDo.php" method="POST">
             <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
-            <input type="text name="tasks" placeholder="Feladat" value="<?php echo $_GET['task']; ?>" required>
+            <input type="text" name="task" placeholder="Feladat" value="<?php echo $_GET['task']; ?>" required>
             <select name="fontossagi" class="fontossagi">
                 <option value="5">Rendkívül fontos</option>
                 <option value="4">Nagyon fontos</option>
