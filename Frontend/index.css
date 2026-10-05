@@ -79,3 +79,14 @@ select{
     padding: 20px;
     margin-left: auto;
 }
+
+.ToDoEdit{
+    display: block;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+    padding: 25px;
+    border: 2px solid black;
+    box-shadow: 5px 5px 5px black;
+    background-color: whitesmoke;
+}
