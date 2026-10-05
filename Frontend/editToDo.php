@@ -18,10 +18,8 @@
         <h1>ToDo Szerkesztése</h1>
         <form action="../Backend/editToDo.php" method="POST">
             <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
-            <label for="title">Cím:</label>
-            <input type="text" name="title" id="title" value="<?php echo $_GET['title']; ?>" required>
-            <label for="description">Leírás:</label>
-            <textarea name="description" id="description" required><?php echo $_GET['description']; ?></textarea>
+            <input type="text name="tasks" placeholder="Feladat" value="<?php echo $_GET['task']; ?>" required>
+            <input type="priority" name="priority" placeholder="Prioritás" value="<?php echo $_GET['priority']; ?>" required>
             <button type="submit">Mentés</button>
             <button type="button" onclick="window.location.href='index.php'">Mégse</button>
         </form>
