@@ -99,7 +99,6 @@
                 <option value="">Opciók</option>
                 <option value="logOut">Kijelentkezés</option>
                 <option value="changePassword">Jelszó módosítása</option>
-                <option value="DragDropPage">Drag & Drop oldalra</option>
             </select>
         </div>
     </div>
