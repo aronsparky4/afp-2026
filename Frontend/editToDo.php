@@ -19,7 +19,13 @@
         <form action="../Backend/editToDo.php" method="POST">
             <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
             <input type="text name="tasks" placeholder="Feladat" value="<?php echo $_GET['task']; ?>" required>
-            <input type="priority" name="priority" placeholder="Prioritás" value="<?php echo $_GET['priority']; ?>" required>
+            <select name="fontossagi" class="fontossagi">
+                <option value="5">Rendkívül fontos</option>
+                <option value="4">Nagyon fontos</option>
+                <option value="3">Fontos</option>
+                <option value="2">Nem annyira fontos</option>
+                <option value="1">Hanyatló</option>
+            </select>
             <button type="submit">Mentés</button>
             <button type="button" onclick="window.location.href='index.php'">Mégse</button>
         </form>
