@@ -7,7 +7,7 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
-        if (!isset($_POST["toDoInput"]) || !isset($_POST["fontossagi"]) || !isset($_POST["category"])) {
+        if (!isset($_POST["toDoInput"]) || !isset($_POST["fontossagi"]) || !isset($_POST["category"]) || !isset($_POST["task_id"])) {
             Header("Location: ../Frontend/index.php?hiba=missing");
             exit;
         }
@@ -36,8 +36,8 @@
             Header("Location: ../Frontend/index.php?hiba=exists");
             exit;
         } else {
-            $lekerdezes = $connection->prepare("INSERT INTO tasks (user_id, task, category_id, priority_id) VALUES (?, ?, ?, ?)");
-            $lekerdezes->bind_param("isis", $_SESSION['user_id'], $toDo, $category, $fontossagi);
+            $lekerdezes = $connection->prepare("UPDATE tasks SET task = ?, category_id = ?, priority_id = ? WHERE id = ?");
+            $lekerdezes->bind_param("siii", $toDo, $category, $fontossagi, $_POST['task_id']);
             try {if ($lekerdezes->execute()) {
                 header("Location: ../Frontend/index.php?message=success");
                 exit();

@@ -198,7 +198,10 @@
                         <input type="hidden" name="task_id" value="<?= intval($row['id']) ?>">
                         <button type="submit">ToDo törlése</button>
                     </form>
-                    <button><a href="editToDo.php?task_id=<?= intval($row['id']) ?>">ToDo szerkesztése</a></button>
+                    <form action="editToDo.php" method="post">
+                        <input type="hidden" name="task_id" value="<?= intval($row['id']) ?>">
+                        <button>ToDo szerkesztése</button>
+                    </form>
                 </div>
                 <br>
             <?php endforeach; ?>
