@@ -225,9 +225,7 @@
         <?php endforeach; ?>
     </div>
     <div class="RemoveToDos">
-        <form action="../Backend/deleteAllToDo.php" method="POST">
-            <button type="submit">Minden ToDo törlése</button>
-        </form>
+        <button id="deleteAll" type="button">Minden Todo törlése</button>
         <br></br>
         <form action="../Backend/deleteDoneToDos.php" method="POST">
             <button type="submit">Elvégzett ToDo-k törlése</button>
