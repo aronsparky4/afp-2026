@@ -90,3 +90,14 @@ select{
     box-shadow: 5px 5px 5px black;
     background-color: whitesmoke;
 }
+
+header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    margin-top: 5px;
+    border: 2px solid black;
+    box-shadow: 5px 5px 5px black;
+    background-color: whitesmoke;
+}
