@@ -18,7 +18,7 @@
                     $_SESSION["user_id"] = $user["id"];
                     $_SESSION["username"] = $user["username"];
 
-                    header("Location: ../Frontend/index.php");
+                    header("Location: ../Frontend/startpage.php");
                     exit();
 
                 }

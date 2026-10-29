@@ -3,21 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="other.css">
+    <link rel="stylesheet" href="style.css">
     <title>AFP 2026 -Regisztrációs form</title>
+    <style>
+        body {
+            overflow-y: auto;
+        }
+        .hero {
+            max-width: 800px;
+            margin: 60px auto 30px auto;
+            text-align: center;
+            padding: 0 20px;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+        .hero p {
+            color: var(--text-sub);
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+        }
+        .board {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            max-width: 400px;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <div class="loginBox">
+    <header>
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <h1>PHP ToDo Lista</h1>
+            <span class="badge">V2</span>
+        </div>
+    </header>
+    <div class="hero">
+        <h1>Regisztráció</h1>
+    </div>
+    <div class="board">
+        <div class="card">
         <form action="../Backend/registration.php" method="POST">
-            <h2>Regisztráció</h2>
             <h3>Felhasználónév</h3>
-            <input type="text" name="username" placeholder="Felhasználónév" required>
+            <input type="text" name="username" placeholder="Felhasználónév" class="form-control" required>
             <h3>E-mail cím</h3>
-            <input type="email" name="email" placeholder="E-mail cím" required>
+            <input type="email" name="email" placeholder="E-mail cím" class="form-control" required>
             <h3>Jelszó</h3>
-            <input type="password" name="password" placeholder="Jelszó" minlength="8" maxlength="64" required>
+            <input type="password" name="password" placeholder="Jelszó" minlength="8" maxlength="64" class="form-control" required>
             <h3>Jelszó megerősítése</h3>
-            <input type="password" name="confirm_password" placeholder="Jelszó megerősítése" minlength="8" maxlength="64" required>
+            <input type="password" name="confirm_password" placeholder="Jelszó megerősítése" minlength="8" maxlength="64" class="form-control" required>
             <br></br>
             <?php if (isset($_GET['error'])): ?>
                 <p style="color:red">
@@ -47,10 +89,11 @@
                     ?>
                 </p>
             <?php endif; ?>
-            <input type="submit" name="" value="Regisztráció">
+            <input type="submit" name="" value="Regisztráció" class="btn">
             <br></br>
-            <a href="loginform.php">Vissza a bejelentkezés oldalra</a>
+            <a href="loginform.php" class="btn">Vissza a bejelentkezés oldalra</a>
         </form>
+        </div>
     </div>
 </body>
 </html>

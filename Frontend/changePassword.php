@@ -45,7 +45,7 @@
             <input type="password" name="new_Password" placeholder="Új jelszó" minlength="8" maxlength="64" required>
             <input type="password" name="confirm_Password" placeholder="Új jelszó megerősítése" minlength="8" maxlength="64" required>
             <button type="submit">Jelszó módosítása</button>
-            <a href="index.php">Vissza a főoldalra</a>
+            <a href="startpage.php">Vissza a főoldalra</a>
         </form>
     </div>
 </body>
