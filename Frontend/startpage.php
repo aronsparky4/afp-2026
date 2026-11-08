@@ -43,7 +43,7 @@
 <body>
     <header>
         <div style="display: flex; align-items: center; justify-content: space-between;">
-            <h1>Kedzőlap - ToDo Lista</h1>
+            <h1>Kezdőlap - ToDo Lista</h1>
             <span class="badge">V2</span>
         </div>
         <div style="display: flex; gap: 8px;">
@@ -55,7 +55,7 @@
         <h1>ToDo-Lista - PHP & SQL</h1>
         <p>Válassz az opciók közül.</p>
         <a href="index.php" class="btn">Régi ToDo oldalra</a>
-        <a class="btn" href="newTodo.php">Új ToDo oldalra</a>
+        <a class="btn" href="index_v2.php">Új ToDo oldalra</a>
         <a class="btn" id="editUserBtn" onclick="openModal()">Felhasználó módosítása</a>
     </section>
 
