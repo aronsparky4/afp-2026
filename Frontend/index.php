@@ -78,6 +78,11 @@
     $lekerdezes->execute();
     $result = $lekerdezes->get_result();
 
+    $lekerdezes = $connection->prepare("SELECT comments.id, comments.user_id, comments.task_id, comments.text, users.username FROM comments JOIN users ON comments.user_id = users.id WHERE user_id = ?");
+    $lekerdezes->bind_param("i", $_SESSION["user_id"]);
+    $lekerdezes->execute();
+    $comments_result = $lekerdezes->get_result();
+
 ?>
 
 <!DOCTYPE html>
@@ -202,6 +207,20 @@
                     <form action="editToDo.php" method="post">
                         <input type="hidden" name="task_id" value="<?= intval($row['id']) ?>">
                         <button>ToDo szerkesztése</button>
+                    </form>
+                    <p>Hozzászólások:</p>
+                    <?php foreach($comments_result as $comment_row): ?>
+                        <?php if ($comment_row['task_id'] === $row['id']): ?>
+                            <div>
+                                <span><?= htmlspecialchars($comment_row['username']) ?>:</span>
+                                <span><?= htmlspecialchars($comment_row['text']) ?></span>
+                            </div>
+                        <?php endif; ?> 
+                    <?php endforeach; ?>
+                    <form action="../Backend/commentOnToDo.php" method="post">
+                        <input type="hidden" name="task_id" value="<?= intval($row['id']) ?>">
+                        <input type="text" name="comment" placeholder="Hozzászólás írása...">
+                        <Button>Comment</Button>
                     </form>
                 </div>
                 <br>
