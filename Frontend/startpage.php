@@ -47,7 +47,7 @@
             <span class="badge">V2</span>
         </div>
         <div style="display: flex; gap: 8px;">
-            <a class="btn btn-secondary" style="text-decoration: none;"><span>Bejelentkezve: <?php echo htmlspecialchars($_SESSION['username']); ?></span></a>
+            <a href="changePassword.php" class="btn btn-secondary" style="text-decoration: none;"><span>Bejelentkezve: <?php echo htmlspecialchars($_SESSION['username']); ?></span></a>
             <a href="../Backend/logout.php" class="btn">Kijelentkezés</a>
         </div>
     </header>
@@ -55,8 +55,8 @@
         <h1>ToDo-Lista - PHP & SQL</h1>
         <p>Válassz az opciók közül.</p>
         <a href="index.php" class="btn">Régi ToDo oldalra</a>
-        <a class="btn">Új ToDo oldalra</a>
-        <a class="btn" id="editUserBtn" href="changePassword.php">Felhasználó módosítása</a>
+        <a class="btn" href="newTodo.php">Új ToDo oldalra</a>
+        <a class="btn" id="editUserBtn" onclick="openModal()">Felhasználó módosítása</a>
     </section>
 
     <div class="modal-overlay" id="editModal">
@@ -67,12 +67,20 @@
             </div>
             <div class="modal-body">
                 <form id="editUserForm" method="POST" action="../Backend/changePassword.php">
+                    <label for="username">Felhasználónév:</label>
+                    <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($_SESSION['username']); ?>" required>
+                    <br>
+                    <label for="email">Email cím:</label>
+                    <!--<input type="email" id="email" name="email" value="<?php echo htmlspecialchars($_SESSION['email']); ?>" required>
+                    <label for="currentPassword">Jelenlegi jelszó:</label>-->
+                    <input type="password" id="currentPassword" name="currentPassword" required>
+                    <br>
                     <label for="newPassword">Új jelszó:</label>
                     <input type="password" id="newPassword" name="newPassword" required>
-
+                    <br>
                     <label for="confirmPassword">Jelszó megerősítése:</label>
                     <input type="password" id="confirmPassword" name="confirmPassword" required>
-
+                    <br>
                     <button type="submit" class="btn">Módosítás</button>
                 </form>
             </div>
@@ -80,21 +88,17 @@
     </div>
 
 <script>
-    const editModal = document.getElementById('editModal');
-    const editUserBtn = document.getElementById('editUserBtn');
-    const closeModal = document.getElementById('closeModal');
-
-    editUserBtn.onclick = function() {
-        editModal.style.display = 'block';
+    function openModal() {
+        document.getElementById('editModal').classList.add('active');
     }
 
-    closeModal.onclick = function() {
-        editModal.style.display = 'none';
+    document.getElementById('closeModal').onclick = function() {
+        document.getElementById('editModal').classList.remove('active');
     }
 
     window.onclick = function(event) {
-        if (event.target == editModal) {
-            editModal.style.display = 'none';
+        if (event.target == document.getElementById('editModal')) {
+            document.getElementById('editModal').classList.remove('active');
         }
     }
 </script>
