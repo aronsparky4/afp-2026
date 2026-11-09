@@ -95,7 +95,7 @@
 </head>
 <body>
     <header>
-        <h2>Ez az oldal régi változata. Az újhoz <a href="index.php">kattintson ide</a></h2>
+        <h2>Ez az oldal régi változata. Az újhoz <a href="index_v2.php">kattintson ide</a></h2>
     </header>
     <div class="title-box">
         <h1>To-Do Lista</h1>
