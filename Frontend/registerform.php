@@ -42,13 +42,10 @@
 <body>
     <header>
         <div style="display: flex; align-items: center; justify-content: space-between;">
-            <h1>PHP ToDo Lista</h1>
+            <h1>Regisztráció - PHP ToDo Lista</h1>
             <span class="badge">V2</span>
         </div>
     </header>
-    <div class="hero">
-        <h1>Regisztráció</h1>
-    </div>
     <div class="board">
         <div class="card">
         <form action="../Backend/registration.php" method="POST">

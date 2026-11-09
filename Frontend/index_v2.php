@@ -20,12 +20,12 @@
 <body>
     <header>
     <div style="display: flex; align-items: center; justify-content: space-between;">
-        <h1>ToDo Lista</h1>
+        <h1>Dashboard - PHP ToDo Lista</h1>
         <span class="badge">V2</span>
     </div>
     <div style="display: flex; gap: 8px;">
         <a href="startpage.php" class="btn btn-secondary" style="text-decoration: none;"><span>Bejelentkezve: <?php echo htmlspecialchars($_SESSION['username']); ?></span></a>
-        <a class="btn">+ Új kategória</a>
+        <a class="btn" onclick="alertPlace()">+ Új kategória</a>
         <a href="../Backend/logout.php" class="btn">Kijelentkezés</a>
     </div>
     </header>
@@ -40,5 +40,10 @@
                 <span class="badge" style="margin-top: 8px;">Prioritás ide</span>
             </div>
     </main>
+<script>
+    function alertPlace() {
+        alert("Jelenleg ez a funkció nincs implementálva.");
+    }
+</script>
 </body>
 </html>

@@ -43,7 +43,7 @@
 <body>
     <header>
         <div style="display: flex; align-items: center; justify-content: space-between;">
-            <h1>Kezdőlap - ToDo Lista</h1>
+            <h1>Kezdőlap - PHP ToDo Lista</h1>
             <span class="badge">V2</span>
         </div>
         <div style="display: flex; gap: 8px;">
