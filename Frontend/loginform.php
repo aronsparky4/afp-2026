@@ -61,6 +61,7 @@
             <?php endif; ?>
             <h3>Felhasználónév vagy e-mail cím</h3>
             <input type="text" name="username_or_email" placeholder="Felhasználónév vagy e-mail cím" class="form-control" required>
+            <br></br>
             <h3>Jelszó</h3>
             <input type="password" name="password" placeholder="Jelszó" minlength="8" maxlength="64" class="form-control" required>
             <br></br>

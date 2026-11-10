@@ -51,10 +51,13 @@
         <form action="../Backend/registration.php" method="POST">
             <h3>Felhasználónév</h3>
             <input type="text" name="username" placeholder="Felhasználónév" class="form-control" required>
+            <br></br>
             <h3>E-mail cím</h3>
             <input type="email" name="email" placeholder="E-mail cím" class="form-control" required>
+            <br></br>
             <h3>Jelszó</h3>
             <input type="password" name="password" placeholder="Jelszó" minlength="8" maxlength="64" class="form-control" required>
+            <br></br>
             <h3>Jelszó megerősítése</h3>
             <input type="password" name="confirm_password" placeholder="Jelszó megerősítése" minlength="8" maxlength="64" class="form-control" required>
             <br></br>
