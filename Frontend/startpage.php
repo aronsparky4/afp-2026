@@ -75,6 +75,9 @@
                     <label for="currentPassword">Jelenlegi jelszó:</label>-->
                     <input type="password" id="currentPassword" name="currentPassword" required>
                     <br>
+                    <label for="oldPassword">Jelenlegi jelszó:</label>
+                    <input type="password" id="oldPassword" name="oldPassword" required>
+                    <br>
                     <label for="newPassword">Új jelszó:</label>
                     <input type="password" id="newPassword" name="newPassword" required>
                     <br>

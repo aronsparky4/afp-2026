@@ -78,10 +78,10 @@
     $lekerdezes->execute();
     $result = $lekerdezes->get_result();
 
-    $lekerdezes = $connection->prepare("SELECT comments.id, comments.user_id, comments.task_id, comments.text, users.username FROM comments JOIN users ON comments.user_id = users.id WHERE user_id = ?");
-    $lekerdezes->bind_param("i", $_SESSION["user_id"]);
-    $lekerdezes->execute();
-    $comments_result = $lekerdezes->get_result();
+    //$lekerdezes = $connection->prepare("SELECT comments.id, comments.user_id, comments.task_id, comments.text, users.username FROM comments JOIN users ON comments.user_id = users.id WHERE user_id = ?");
+    //$lekerdezes->bind_param("i", $_SESSION["user_id"]);
+    //$lekerdezes->execute();
+    //$comments_result = $lekerdezes->get_result();
 
 ?>
 
