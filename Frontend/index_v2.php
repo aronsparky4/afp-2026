@@ -3,10 +3,31 @@
     require_once '../Backend/auth.php';
     OnlyLoggedIn();
 
-    $lekerdezes = $connection->prepare("SELECT categories.id, categories.category_name, COUNT(tasks.id) as task_count FROM categories LEFT JOIN tasks ON categories.id = tasks.category_id WHERE categories.user_id = ? GROUP BY categories.id");
-    $lekerdezes->bind_param("i", $_SESSION['user_id']);
-    $lekerdezes->execute();
-    $categories = $lekerdezes->get_result();
+    if($_SERVER["REQUEST_METHOD"] === "POST")
+    {   
+        $_SESSION['team_id'] = intval($_POST['team_id']) ?? NULL;
+    }
+
+    if (!empty($_SESSION["team_id"])) {
+        $lekerdezes = $connection->prepare("SELECT * FROM teams WHERE id = ?");
+        $lekerdezes->bind_param("i", $_SESSION["team_id"]);
+        $lekerdezes->execute();
+        $team = $lekerdezes->get_result()->fetch_assoc();
+
+
+        $lekerdezes = $connection->prepare("SELECT categories.id, categories.category_name, COUNT(tasks.id) as task_count FROM categories LEFT JOIN tasks ON categories.id = tasks.category_id WHERE categories.team_id = ? GROUP BY categories.id");
+        $lekerdezes->bind_param("i", $_SESSION["team_id"]);
+        $lekerdezes->execute();
+        $categories = $lekerdezes->get_result();
+    }
+    else
+    {
+        $lekerdezes = $connection->prepare("SELECT categories.id, categories.category_name, COUNT(tasks.id) as task_count FROM categories LEFT JOIN tasks ON categories.id = tasks.category_id WHERE categories.user_id = ?  AND categories.team_id IS NULL GROUP BY categories.id");
+        $lekerdezes->bind_param("i", $_SESSION['user_id']);
+        $lekerdezes->execute();
+        $categories = $lekerdezes->get_result();
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +50,9 @@
         <span class="badge">V2</span>
     </div>
     <div style="display: flex; gap: 8px;">
+        <?php if (isset($team['team_name'])): ?>
+            <span class="badge">Team: <?php echo htmlspecialchars($team['team_name']); ?><br>Join Code: <?php echo htmlspecialchars($team['join_code'] ?? ''); ?></span>
+        <?php endif; ?>
         <a href="startpage.php" class="btn btn-secondary" style="text-decoration: none;"><span>Bejelentkezve: <?php echo htmlspecialchars($_SESSION['username']); ?></span></a>
         <a class="btn" onclick="alertPlace()">+ Új kategória</a>
         <a href="../Backend/logout.php" class="btn">Kijelentkezés</a>
@@ -41,6 +65,7 @@
             </form>
             <form action="../Backend/deleteCategory.php" method="POST">
                  <select name="category_id" required>
+
                     <?php foreach ($categories as $category): ?>
                         <option value="<?php echo htmlspecialchars($category['id']); ?>"><?php echo htmlspecialchars($category['category_name']); ?></option>
                     <?php endforeach; ?>
@@ -91,12 +116,21 @@
                 </div>
 
                 <?php
-                $sql = "SELECT tasks.id, tasks.task, categories.category_name, priorities.priority_name, tasks.is_done, categories.id as category_id, priorities.id as priority_id FROM tasks 
+                if (!empty($_SESSION["team_id"])) {
+                    $sql = "SELECT tasks.id, tasks.task, categories.category_name, priorities.priority_name, tasks.is_done, categories.id as category_id, priorities.id as priority_id FROM tasks 
                     JOIN categories ON tasks.category_id = categories.id
                     JOIN priorities ON tasks.priority_id = priorities.id 
-                    WHERE tasks.user_id = ? AND categories.id = ?";
-                $lekerdezes = $connection->prepare($sql);
-                $lekerdezes->bind_param("ii", $_SESSION['user_id'], $category['id']);
+                    WHERE categories.id = ? AND tasks.team_id = ?";
+                    $lekerdezes = $connection->prepare($sql);
+                    $lekerdezes->bind_param("ii",$category['id'], $_SESSION['team_id']);
+                } else {
+                    $sql = "SELECT tasks.id, tasks.task, categories.category_name, priorities.priority_name, tasks.is_done, categories.id as category_id, priorities.id as priority_id FROM tasks 
+                    JOIN categories ON tasks.category_id = categories.id
+                    JOIN priorities ON tasks.priority_id = priorities.id 
+                    WHERE tasks.user_id = ? AND categories.id = ? AND tasks.team_id IS NULL";
+                    $lekerdezes = $connection->prepare($sql);
+                    $lekerdezes->bind_param("ii", $_SESSION['user_id'], $category['id']);
+                }
                 $lekerdezes->execute();
                 $tasks = $lekerdezes->get_result();
                 ?>

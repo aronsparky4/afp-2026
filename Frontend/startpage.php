@@ -2,6 +2,13 @@
     require_once '../Backend/db.php';
     require_once '../Backend/auth.php';
     OnlyLoggedIn();
+    $_SESSION['team_id'] = null;
+    $sql = "SELECT team_members.role, teams.team_name, teams.id FROM team_members JOIN teams ON team_members.team_id = teams.id WHERE team_members.user_id = ?";
+    $lekerdezes = $connection->prepare($sql);
+    $lekerdezes->bind_param("i", $_SESSION['user_id']);
+    $lekerdezes->execute();
+    $teams = $lekerdezes->get_result();
+
 ?>
 
 <!DOCTYPE html>
@@ -51,12 +58,42 @@
             <a href="../Backend/logout.php" class="btn">Kijelentkezés</a>
         </div>
     </header>
+    
+    <div class="column">
+        <form action="../Backend/addTeam.php" method="POST">
+            <input type="text" name="teamName" placeholder="Új csapat neve" required>
+            <button type="submit" class="btn">Csapat létrehozása</button>
+        </form>
+        <form action="../Backend/joinTeam.php" method="POST">
+            <input type="text" name="teamCode" placeholder="Csatlakozási kód" required>
+            <button type="submit" class="btn">Csatlakozás csapathoz</button>
+        </form>
+        <div class="column-header">
+            <h2>Teams:</h2>
+        </div>
+        <?php if ($teams->num_rows > 0): ?>
+            <?php foreach ($teams as $team): ?>
+                <form action="../Frontend/index_v2.php" method="POST">
+                    <input type="hidden" name="team_id" value="<?php echo htmlspecialchars($team['id']); ?>">
+                    <div class="card" type="submit" onclick="this.closest('form').submit();">
+                        <span><?php echo htmlspecialchars($team['team_name']); ?></span>
+                        <span class="badge" style="margin-top: 8px;">Role: <?php echo htmlspecialchars($team['role']); ?></span>
+                    </div>
+                </form>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        <div class="card">
+            <span>Példa Csapat</span>
+            <span class="badge" style="margin-top: 8px;">Role: Rookie</span>
+        </div>
+    </div>
     <section class="hero">
         <h1>ToDo-Lista - PHP & SQL</h1>
         <p>Válassz az opciók közül.</p>
         <a href="index.php" class="btn">Régi ToDo oldalra</a>
         <a class="btn" href="index_v2.php">Új ToDo oldalra</a>
         <a class="btn" id="editUserBtn" onclick="openModal()">Felhasználó módosítása</a>
+
     </section>
 
     <div class="modal-overlay" id="editModal">
