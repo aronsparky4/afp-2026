@@ -10,14 +10,14 @@
         $lekerdezes = $connection->prepare("DELETE FROM tasks WHERE user_id = ?");
         $lekerdezes->bind_param("i", $user_id);
         try {if ($lekerdezes->execute()) {
-            header("Location: ../Frontend/index.php?message=success");
+            header("Location: ../Frontend/index_v2.php?message=success");
             exit();
             }
         } catch (mysqli_sql_exception $exception) {
-            header("Location: ../Frontend/index.php?error=error");
+            header("Location: ../Frontend/index_v2.php?error=error");
             $hiba = "Adatbázis hiba: " . $exception->getMessage();
         }
     }
-    Header("Location: ../Frontend/index.php?delete=success");
+    Header("Location: ../Frontend/index_v2.php?delete=success");
     exit;
 ?>

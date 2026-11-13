@@ -8,13 +8,13 @@
 
 
         if (!isset($_POST["toDoInput"]) || !isset($_POST["fontossagi"]) || !isset($_POST["category"]) || !isset($_POST["task_id"])) {
-            Header("Location: ../Frontend/index.php?hiba=missing");
+            Header("Location: ../Frontend/index_v2.php?hiba=missing");
             exit;
         }
         else {
             $toDo =  trim($_POST["toDoInput"]);
             if (empty($toDo)) {
-                Header("Location: ../Frontend/index.php?hiba=empty");
+                Header("Location: ../Frontend/index_v2.php?hiba=empty");
                 exit;
             }
             $fontossagi = intval($_POST["fontossagi"]);
@@ -22,7 +22,7 @@
         }
 
         if (!in_array($fontossagi, [1, 2, 3, 4, 5], true) || !in_array($category, [1, 2, 3, 4], true)) {
-            Header("Location: ../Frontend/index.php?hiba=invalid");
+            Header("Location: ../Frontend/index_v2.php?hiba=invalid");
             exit;
         }
 
@@ -33,21 +33,21 @@
         $result = $lekerdezes->get_result();
 
         if ($result->num_rows > 0) {
-            Header("Location: ../Frontend/index.php?hiba=exists");
+            Header("Location: ../Frontend/index_v2.php?hiba=exists");
             exit;
         } else {
             $lekerdezes = $connection->prepare("UPDATE tasks SET task = ?, category_id = ?, priority_id = ? WHERE id = ?");
             $lekerdezes->bind_param("siii", $toDo, $category, $fontossagi, $_POST['task_id']);
             try {if ($lekerdezes->execute()) {
-                header("Location: ../Frontend/index.php?message=success");
+                header("Location: ../Frontend/index_v2.php?message=success");
                 exit();
                 }
             } catch (mysqli_sql_exception $exception) {
-                header("Location: ../Frontend/index.php?error=error");
+                header("Location: ../Frontend/index_v2.php?error=error");
                 $hiba = "Adatbázis hiba: " . $exception->getMessage();
             }
         }
     }
-    Header("Location: ../Frontend/index.php");
+    Header("Location: ../Frontend/index_v2.php");
     exit;
 ?>

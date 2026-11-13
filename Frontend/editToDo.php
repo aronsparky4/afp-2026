@@ -17,12 +17,12 @@
                 if ($result->num_rows > 0) {
                     $task = $result->fetch_assoc();
                 } else {
-                    header("Location: ../Frontend/index.php?error=error");
+                    header("Location: ../Frontend/index_v2.php?error=error");
                     exit();
                 }
             }
         } catch (mysqli_sql_exception $exception) {
-            header("Location: ../Frontend/index.php?error=error");
+            header("Location: ../Frontend/index_v2.php?error=error");
             $hiba = "Adatbázis hiba: " . $exception->getMessage();
         }
 
@@ -63,7 +63,7 @@
             </select>
             <br>
             <button type="submit">Mentés</button>
-            <button type="button" onclick="window.location.href='index.php'">Mégse</button>
+            <button type="button" onclick="window.location.href='../Frontend/index_v2.php'">Mégse</button>
         </form>
     </div>
 </body>

@@ -5,19 +5,19 @@
     OnlyLoggedIn();
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $task_id = $_SESSION['user_id'];
+        $task_id = $_POST["task_id"];
 
         $lekerdezes = $connection->prepare("DELETE FROM tasks WHERE id = ?");
         $lekerdezes->bind_param("i", $task_id);
         try {if ($lekerdezes->execute()) {
-            header("Location: ../Frontend/index.php?message=success");
+            header("Location: ../Frontend/index_v2.php?message=success");
             exit();
             }
         } catch (mysqli_sql_exception $exception) {
-            header("Location: ../Frontend/index.php?error=error");
+            header("Location: ../Frontend/index_v2.php?error=error");
             $hiba = "Adatbázis hiba: " . $exception->getMessage();
         }
     }
-    Header("Location: ../Frontend/index.php?delete=success");
+    Header("Location: ../Frontend/index_v2.php?delete=success");
     exit;
 ?>
