@@ -2,6 +2,11 @@
     require_once '../Backend/db.php';
     require_once '../Backend/auth.php';
     OnlyLoggedIn();
+
+    $lekerdezes = $connection->prepare("SELECT id, category_name FROM categories WHERE user_id = ?");
+    $lekerdezes->bind_param("i", $_SESSION['user_id']);
+    $lekerdezes->execute();
+    $categories = $lekerdezes->get_result();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,16 +34,83 @@
         <a href="../Backend/logout.php" class="btn">Kijelentkezés</a>
     </div>
     </header>
+                <!-- Új kategória létrehozása -->
+            <form action="../Backend/createCategory.php" method="POST">
+                <input type="text" name="categoryName" placeholder="Új kategória neve" required>
+                <button type="submit" class="btn">Létrehozás</button>
+            </form>
+
+            <!-- Új prioritás létrehozása -->
+            <!--<form action="../Backend/createPriority.php" method="POST">
+                <input type="text" name="priorityName" placeholder="Új prioritás neve" required>
+                <button type="submit" class="btn">Létrehozás</button>
+            </form> -->
+
+            <!-- Új task létrehozása -->
+            <form action="../Backend/addToDo.php" method="POST">
+                <input type="text" name="toDoInput" class="toDoInputBox" placeholder="Írj ide valamit...." required>
+                <select name="fontossagi" class="fontossagi">
+                    <option value="5">Rendkívül fontos</option>
+                    <option value="4">Nagyon fontos</option>
+                    <option value="3">Fontos</option>
+                    <option value="2">Nem annyira fontos</option>
+                    <option value="1">Hanyatló</option>
+                </select>
+                <select name="category">
+                    <?php foreach ($categories as $category): ?>
+                        <option value="<?php echo htmlspecialchars($category['id']); ?>"><?php echo htmlspecialchars($category['category_name']); ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <button type="submit">ToDo hozzáadása</button>
+            </form>
     <main class="board">
-        <div class="column">
-            <div class="column-header">
-                <h2>Kategória neve</h2>
-                <span class="badge">sum</span>
+
+        <?php foreach ($categories as $category): ?>
+            <div class="column">
+                <div class="column-header">
+                    <h2><?php echo htmlspecialchars($category['category_name']); ?></h2>
+                    <span class="badge">sum</span>
+                </div>
+
+                <?php
+                $sql = "SELECT tasks.id, tasks.task, categories.category_name, priorities.priority_name, tasks.is_done, categories.id as category_id, priorities.id as priority_id FROM tasks 
+                    JOIN categories ON tasks.category_id = categories.id
+                    JOIN priorities ON tasks.priority_id = priorities.id 
+                    WHERE tasks.user_id = ? AND categories.id = ?";
+                $lekerdezes = $connection->prepare($sql);
+                $lekerdezes->bind_param("ii", $_SESSION['user_id'], $category['id']);
+                $lekerdezes->execute();
+                $tasks = $lekerdezes->get_result();
+                ?>
+
+                <?php foreach ($tasks as $task): ?>
+                    <div class="card">
+                        <!-- ToDo Checkbox, késznek van jelölve -->
+                        <input type="checkbox" name="is_done" style="pointer-events: none;" <?= $task['is_done'] ? 'checked' : '' ?>>
+                        <!-- ToDo szöveg -->
+                        <span><?= htmlspecialchars($task['task']) ?></span>
+                        <!-- ToDo kategória és fontosság -->
+                        <span class="badge" style="margin-top: 8px;">(<?= htmlspecialchars($task['priority_name']) ?>)</span>
+                        <!-- ToDo késznek jelölés gomb -->
+                        <form action="../Backend/isDone.php" method="POST">
+                            <input type="hidden" name="is_done" value="<?= $task['is_done'] ? 0 : 1 ?>">
+                            <input type="hidden" name="task_id" value="<?= intval($task['id']) ?>">
+                            <button type="submit">Késznek jelölés</button>
+                        </form>
+                        <!-- ToDo törlés gomb -->
+                        <form action="../Backend/deleteToDo.php" method="POST">
+                            <input type="hidden" name="task_id" value="<?= intval($task['id']) ?>">
+                            <button type="submit">ToDo törlése</button>
+                        </form>
+                        <form action="../Frontend/editToDo.php" method="post">
+                            <input type="hidden" name="task_id" value="<?= intval($task['id']) ?>">
+                            <button>ToDo szerkesztése</button>
+                        </form>
+                        
+                    </div>
+                <?php endforeach; ?>
             </div>
-            <div class="card">
-                <p>Placeholder szöveg</p>
-                <span class="badge" style="margin-top: 8px;">Prioritás ide</span>
-            </div>
+        <?php endforeach; ?>
     </main>
 <script>
     function alertPlace() {
