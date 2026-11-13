@@ -17,6 +17,7 @@
                 {
                     $_SESSION["user_id"] = $user["id"];
                     $_SESSION["username"] = $user["username"];
+                    $_SESSION["email"] = $user["email"];
 
                     header("Location: ../Frontend/startpage.php");
                     exit();

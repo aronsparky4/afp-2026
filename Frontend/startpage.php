@@ -66,14 +66,12 @@
                 <span class="close" id="closeModal">&times;</span>
             </div>
             <div class="modal-body">
-                <form id="editUserForm" method="POST" action="../Backend/changePassword.php">
+                <form id="editUserForm" method="POST" action="../Backend/modifyUser.php">
                     <label for="username">Felhasználónév:</label>
                     <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($_SESSION['username']); ?>" required>
                     <br>
                     <label for="email">Email cím:</label>
-                    <!--<input type="email" id="email" name="email" value="<?php echo htmlspecialchars($_SESSION['email']); ?>" required>
-                    <label for="currentPassword">Jelenlegi jelszó:</label>-->
-                    <input type="password" id="currentPassword" name="currentPassword" required>
+                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($_SESSION['email']); ?>" required>
                     <br>
                     <label for="oldPassword">Jelenlegi jelszó:</label>
                     <input type="password" id="oldPassword" name="oldPassword" required>
