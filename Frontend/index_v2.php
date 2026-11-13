@@ -20,6 +20,12 @@
         transform: translateY(-2px);
         box-shadow: var(--shadow-hover);
     }
+    .hero{
+        max-width: 800px;
+        margin: 60px auto 30px auto;
+        text-align: center;
+        padding: 0 20px;
+    }
     </style>
 </head>
 <body>
@@ -72,16 +78,9 @@
             </form>
     <main class="board">
         <?php if($categories->num_rows === 0): ?>
-            <div class="column">
-                <div class="column-header">
-                    <h2>Példa Kategória</h2>
-                    <span class="badge">Sum: 0</span>
-                </div>
-                <div class="card">
-                    <span>Példa Feladat</span>
-                    <span class="badge" style="margin-top: 8px;">Példa Prioritás</span>
-                </div>
-            </div>
+            <section class="hero">
+                <h3>A kezdéshez hozzon létre egy kategóriát!</h3>
+            </section>
         <?php endif; ?>
         <?php foreach ($categories as $category): ?>
             <div class="column">
