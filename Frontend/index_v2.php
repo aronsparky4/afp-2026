@@ -37,6 +37,7 @@
     <div style="display: flex; gap: 8px;">
         <a href="startpage.php" class="btn btn-secondary" style="text-decoration: none;"><span>Bejelentkezve: <?php echo htmlspecialchars($_SESSION['username']); ?></span></a>
         <a class="btn" onclick="alertPlace()">+ Új kategória</a>
+        <a class="btn" onclick="alertPlace()">Kategória lista</a>
         <a href="../Backend/logout.php" class="btn">Kijelentkezés</a>
     </div>
     </header>
