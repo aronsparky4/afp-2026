@@ -3,7 +3,7 @@
     require_once '../Backend/auth.php';
     OnlyLoggedIn();
 
-    $lekerdezes = $connection->prepare("SELECT id, category_name FROM categories WHERE user_id = ?");
+    $lekerdezes = $connection->prepare("SELECT categories.id, categories.category_name, COUNT(tasks.id) as task_count FROM categories LEFT JOIN tasks ON categories.id = tasks.category_id WHERE categories.user_id = ? GROUP BY categories.id");
     $lekerdezes->bind_param("i", $_SESSION['user_id']);
     $lekerdezes->execute();
     $categories = $lekerdezes->get_result();
@@ -39,7 +39,14 @@
                 <input type="text" name="categoryName" placeholder="Új kategória neve" required>
                 <button type="submit" class="btn">Létrehozás</button>
             </form>
-
+            <form action="../Backend/deleteCategory.php" method="POST">
+                 <select name="category_id" required>
+                    <?php foreach ($categories as $category): ?>
+                        <option value="<?php echo htmlspecialchars($category['id']); ?>"><?php echo htmlspecialchars($category['category_name']); ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <button type="submit" class="btn">Kategória törlése</button>
+            </form>
             <!-- Új prioritás létrehozása -->
             <!--<form action="../Backend/createPriority.php" method="POST">
                 <input type="text" name="priorityName" placeholder="Új prioritás neve" required>
@@ -64,12 +71,23 @@
                 <button type="submit">ToDo hozzáadása</button>
             </form>
     <main class="board">
-
+        <?php if($categories->num_rows === 0): ?>
+            <div class="column">
+                <div class="column-header">
+                    <h2>Példa Kategória</h2>
+                    <span class="badge">Sum: 0</span>
+                </div>
+                <div class="card">
+                    <span>Példa Feladat</span>
+                    <span class="badge" style="margin-top: 8px;">Példa Prioritás</span>
+                </div>
+            </div>
+        <?php endif; ?>
         <?php foreach ($categories as $category): ?>
             <div class="column">
                 <div class="column-header">
                     <h2><?php echo htmlspecialchars($category['category_name']); ?></h2>
-                    <span class="badge">sum</span>
+                    <span class="badge">Sum: <?php echo $category['task_count'] ?? 0 ?></span>
                 </div>
 
                 <?php
@@ -82,7 +100,9 @@
                 $lekerdezes->execute();
                 $tasks = $lekerdezes->get_result();
                 ?>
-
+                <?php if ($tasks->num_rows === 0): ?>
+                    <p>Nincsenek feladatok ebben a kategóriában.</p>
+                <?php endif; ?>
                 <?php foreach ($tasks as $task): ?>
                     <div class="card">
                         <!-- ToDo Checkbox, késznek van jelölve -->
