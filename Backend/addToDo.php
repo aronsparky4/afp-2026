@@ -34,8 +34,25 @@
             exit;
         }
 
-        $lekerdezes = $connection->prepare("SELECT id FROM tasks WHERE user_id = ? AND task = ? and category_id = ? AND priority_id = ?");
-        $lekerdezes->bind_param("isii", $_SESSION['user_id'], $toDo, $category, $fontossagi);
+        if (!empty($_SESSION["team_id"])) {
+            $team_id = intval($_SESSION["team_id"]);
+            $lekerdezes = $connection->prepare("SELECT id FROM team_members WHERE user_id = ? AND team_id = ?");
+            $lekerdezes->bind_param("ii", $_SESSION['user_id'], $team_id);
+            $lekerdezes->execute();
+            $team_result = $lekerdezes->get_result();
+
+            if ($team_result->num_rows == 0) {
+                Header("Location: ../Frontend/index_v2.php?hiba=invalid");
+                exit;
+            }
+
+        }
+        else {
+            $team_id = null;
+        }
+
+        $lekerdezes = $connection->prepare("SELECT id FROM tasks WHERE user_id = ? AND task = ? AND category_id = ? AND priority_id = ?  AND team_id = ?" );
+        $lekerdezes->bind_param("isiis", $_SESSION['user_id'], $toDo, $category, $fontossagi, $team_id);
         $lekerdezes->execute();
         $result = $lekerdezes->get_result();
 
@@ -43,8 +60,8 @@
             Header("Location: ../Frontend/index_v2.php?hiba=exists");
             exit;
         } else {
-            $lekerdezes = $connection->prepare("INSERT INTO tasks (user_id, task, category_id, priority_id) VALUES (?, ?, ?, ?)");
-            $lekerdezes->bind_param("isis", $_SESSION['user_id'], $toDo, $category, $fontossagi);
+            $lekerdezes = $connection->prepare("INSERT INTO tasks (user_id, task, category_id, priority_id, team_id) VALUES (?, ?, ?, ?, ?)");
+            $lekerdezes->bind_param("isiis", $_SESSION['user_id'], $toDo, $category, $fontossagi, $team_id);
             try {if ($lekerdezes->execute()) {
                 header("Location: ../Frontend/index_v2.php?message=success");
                 exit();

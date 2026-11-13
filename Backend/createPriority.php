@@ -18,8 +18,8 @@
                 exit;
             }
         }
-        $lekerdezes = $connection->prepare("SELECT id FROM priorities WHERE user_id = ? AND priority_name = ?");
-        $lekerdezes->bind_param("is", $_SESSION['user_id'], $priorityName);
+        $lekerdezes = $connection->prepare("SELECT id FROM priorities WHERE user_id = ? AND priority_name = ? AND team_id = ?");
+        $lekerdezes->bind_param("iss", $_SESSION['user_id'], $priorityName, $_SESSION['team_id']);
         $lekerdezes->execute();
         $result = $lekerdezes->get_result();
 
@@ -27,8 +27,8 @@
             Header("Location: ../Frontend/index_v2.php?error=exists");
             exit;
         } else {
-            $lekerdezes = $connection->prepare("INSERT INTO priorities (user_id, priority_name) VALUES (?, ?)");
-            $lekerdezes->bind_param("is", $_SESSION['user_id'], $priorityName);
+            $lekerdezes = $connection->prepare("INSERT INTO priorities (user_id, priority_name, team_id) VALUES (?, ?, ?)");
+            $lekerdezes->bind_param("iss", $_SESSION['user_id'], $priorityName, $_SESSION['team_id']);
             try {if ($lekerdezes->execute()) {
                 header("Location: ../Frontend/index_v2.php?message=success");
                 exit();
