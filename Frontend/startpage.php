@@ -55,6 +55,7 @@
         </div>
         <div style="display: flex; gap: 8px;">
             <a href="changePassword.php" class="btn btn-secondary" style="text-decoration: none;"><span>Bejelentkezve: <?php echo htmlspecialchars($_SESSION['username']); ?></span></a>
+            <button id="theme-toggle" class="btn btn-secondary" type="button">Sötét mód</button>
             <a href="../Backend/logout.php" class="btn">Kijelentkezés</a>
         </div>
     </header>
@@ -99,7 +100,7 @@
     <div class="modal-overlay" id="editModal">
         <div class="modal">
             <div class="modal-header">
-                <h2>Felhasználó módosítása</h2>
+                <h3>Felhasználó módosítása</h3>
                 <span class="close" id="closeModal">&times;</span>
             </div>
             <div class="modal-body">
@@ -140,5 +141,6 @@
         }
     }
 </script>
+<script src="sitetheme.js"></script>
 </body>
 </html>

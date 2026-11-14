@@ -47,6 +47,11 @@
         text-align: center;
         padding: 0 20px;
     }
+    .tag-feature {
+        padding: 2px 6px;
+        border-radius: 4px;
+        align-self: flex-start;
+    }
     </style>
 </head>
 <body>
@@ -57,19 +62,14 @@
     </div>
     <div style="display: flex; gap: 8px;">
         <?php if (isset($team['team_name'])): ?>
-            <span class="badge">Team: <?php echo htmlspecialchars($team['team_name']); ?><br>Join Code: <?php echo htmlspecialchars($team['join_code'] ?? ''); ?></span>
+            <span class="btn btn-secondary">Team: <?php echo htmlspecialchars($team['team_name']); ?><br>Join Code: <?php echo htmlspecialchars($team['join_code'] ?? ''); ?></span>
         <?php endif; ?>
         <a href="startpage.php" class="btn btn-secondary" style="text-decoration: none;"><span>Bejelentkezve: <?php echo htmlspecialchars($_SESSION['username']); ?></span></a>
-        <a class="btn" onclick="alertPlace()">+ Új kategória</a>
-        <a class="btn" onclick="alertPlace()">Kategória lista</a>
+        <a class="btn" href="#" onclick="openCategoryModal(event)">+ Új kategória</a>
+        <a class="btn" href="#" onclick="openCategoryListModal(event)">Kategória lista</a>
         <a href="../Backend/logout.php" class="btn">Kijelentkezés</a>
     </div>
     </header>
-                <!-- Új kategória létrehozása -->
-            <form action="../Backend/createCategory.php" method="POST">
-                <input type="text" name="categoryName" placeholder="Új kategória neve" required>
-                <button type="submit" class="btn">Létrehozás</button>
-            </form>
             <form action="../Backend/deleteCategory.php" method="POST">
                  <select name="category_id" required>
 
@@ -84,28 +84,11 @@
                 <input type="text" name="priorityName" placeholder="Új prioritás neve" required>
                 <button type="submit" class="btn">Létrehozás</button>
             </form> -->
-
-            <!-- Új task létrehozása -->
-            <form action="../Backend/addToDo.php" method="POST">
-                <input type="text" name="toDoInput" class="toDoInputBox" placeholder="Írj ide valamit...." required>
-                <select name="fontossagi" class="fontossagi">
-                    <option value="5">Rendkívül fontos</option>
-                    <option value="4">Nagyon fontos</option>
-                    <option value="3">Fontos</option>
-                    <option value="2">Nem annyira fontos</option>
-                    <option value="1">Hanyatló</option>
-                </select>
-                <select name="category">
-                    <?php foreach ($categories as $category): ?>
-                        <option value="<?php echo htmlspecialchars($category['id']); ?>"><?php echo htmlspecialchars($category['category_name']); ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <button type="submit">ToDo hozzáadása</button>
-            </form>
     <main class="board">
         <?php if($categories->num_rows === 0): ?>
             <section class="hero">
                 <h3>A kezdéshez hozzon létre egy kategóriát!</h3>
+                <a class="btn btn-secondary" href="#" onclick="openCategoryModal(event)">Új kategória létrehozása</a>
             </section>
         <?php endif; ?>
         <?php foreach ($categories as $category): ?>
@@ -138,38 +121,151 @@
                     <p>Nincsenek feladatok ebben a kategóriában.</p>
                 <?php endif; ?>
                 <?php foreach ($tasks as $task): ?>
-                    <div class="card">
+                    <div class="card" style='margin-bottom: 10px;'>
                         <!-- ToDo Checkbox, késznek van jelölve -->
                         <input type="checkbox" name="is_done" style="pointer-events: none;" <?= $task['is_done'] ? 'checked' : '' ?>>
                         <!-- ToDo szöveg -->
                         <span><?= htmlspecialchars($task['task']) ?></span>
                         <!-- ToDo kategória és fontosság -->
-                        <span class="badge" style="margin-top: 8px;">(<?= htmlspecialchars($task['priority_name']) ?>)</span>
+                        <span class="tag tag-feature"><?= htmlspecialchars($task['priority_name']) ?></span>
                         <!-- ToDo késznek jelölés gomb -->
                         <form action="../Backend/isDone.php" method="POST">
                             <input type="hidden" name="is_done" value="<?= $task['is_done'] ? 0 : 1 ?>">
                             <input type="hidden" name="task_id" value="<?= intval($task['id']) ?>">
-                            <button type="submit">Késznek jelölés</button>
+                            <button type="submit" class="btn btn-secondary">Késznek jelölés</button>
                         </form>
                         <!-- ToDo törlés gomb -->
                         <form action="../Backend/deleteToDo.php" method="POST">
                             <input type="hidden" name="task_id" value="<?= intval($task['id']) ?>">
-                            <button type="submit">ToDo törlése</button>
+                            <button type="submit" class="btn btn-secondary">ToDo törlése</button>
                         </form>
                         <form action="../Frontend/editToDo.php" method="post">
                             <input type="hidden" name="task_id" value="<?= intval($task['id']) ?>">
-                            <button>ToDo szerkesztése</button>
+                            <button class="btn btn-secondary">ToDo szerkesztése</button>
                         </form>
-                        
                     </div>
                 <?php endforeach; ?>
+                <a class="btn btn-secondary" onclick="openTodoAddModal(event)" style="margin-top: 10px;">ToDo hozzáadása</a>
             </div>
         <?php endforeach; ?>
     </main>
+
+    <!-- Kategória létrehozás modal -->
+    <div class="modal-overlay" id="categoryModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Új kategória létrehozása</h3>
+                <span class="close" id="closeCategoryModal">&times;</span>
+            </div>
+            <form id="taskForm" method="POST" action="../Backend/createCategory.php">
+                <label for="categoryName">Kategória neve:</label>
+                <input type="text" id="categoryName" name="categoryName" required>
+                <button type="submit" class="btn">Létrehozás</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- új todo létrehozása modal -->
+    <div class="modal-overlay" id="todoAddModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Új ToDo létrehozása</h3>
+            </div>
+            <form id="taskForm" method="POST" action="../Backend/addToDo.php">
+                <label for="toDoInput">ToDo szövege:</label>
+                <input type="text" id="toDoInput" name="toDoInput"  class="form-control" required>
+                <br></br>
+                <label for="fontossagi">Fontosság:</label>
+                <select name="fontossagi" id="fontossagi" class="form-control">
+                    <option value="5">Rendkívül fontos</option>
+                    <option value="4">Nagyon fontos</option>
+                    <option value="3">Fontos</option>
+                    <option value="2">Nem annyira fontos</option>
+                    <option value="1">Hanyatló</option>
+                </select>
+                <br></br>
+                <label for="category">Kategória:</label>
+                <select name="category" id="category" class="form-control" required>
+                    <?php foreach ($categories as $category): ?>
+                        <option value="<?php echo htmlspecialchars($category['id']); ?>"><?php echo htmlspecialchars($category['category_name']); ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <br></br>
+                <button type="button" class="btn btn-cancel" id="closeTodoAddModal">Mégse</button>
+                <button type="submit" class="btn">Létrehozás</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Kategória lista modal -->
+    <div class="modal-overlay" id="categoryListModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Kategória lista</h3>
+                <span class="close" id="closeCategoryListModal">&times;</span>
+            </div>
+            <ul>
+                <?php foreach ($categories as $category): ?>
+                    <li><?php echo htmlspecialchars($category['category_name']); ?> (<?php echo $category['task_count'] ?? 0 ?> feladat)</li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+
 <script>
+    // Placeholder
     function alertPlace() {
         alert("Jelenleg ez a funkció nincs implementálva.");
     }
+
+    // Kategória létrehozása modal
+    function openCategoryModal(event) {
+        event.preventDefault();
+        document.getElementById("categoryModal").classList.add('active');
+    }
+
+    document.getElementById("closeCategoryModal").onclick = function() {
+        document.getElementById("categoryModal").classList.remove('active');
+    }
+
+    window.onclick = function(event) {
+        if (event.target == document.getElementById("categoryModal")) {
+            document.getElementById("categoryModal").classList.remove('active');
+        }
+    }
+
+    // Új ToDo létrehozása modal
+    function openTodoAddModal(event) {
+        event.preventDefault();
+        document.getElementById("todoAddModal").classList.add('active');
+    }
+
+    document.getElementById("closeTodoAddModal").onclick = function() {
+        document.getElementById("todoAddModal").classList.remove('active');
+    }
+
+    window.onclick = function(event) {
+        if (event.target == document.getElementById("todoAddModal")) {
+            document.getElementById("todoAddModal").classList.remove('active');
+        }
+    }
+
+    // Kategória lista modal
+    function openCategoryListModal(event) {
+        event.preventDefault();
+        document.getElementById("categoryListModal").classList.add('active');
+    }
+
+    document.getElementById("closeCategoryListModal").onclick = function() {
+        document.getElementById("categoryListModal").classList.remove('active');
+    }
+
+    window.onclick = function(event) {
+        if (event.target == document.getElementById("categoryListModal")) {
+            document.getElementById("categoryListModal").classList.remove('active');
+        }
+    }
 </script>
+<script src="sitetheme.js"></script>
 </body>
 </html>
