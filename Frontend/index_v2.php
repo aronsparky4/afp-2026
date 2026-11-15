@@ -141,7 +141,7 @@
                         </form>
                         <form action="../Frontend/editToDo.php" method="post">
                             <input type="hidden" name="task_id" value="<?= intval($task['id']) ?>">
-                            <button class="btn btn-secondary">ToDo szerkesztése</button>
+                            <button type="button" class="btn btn-secondary" onclick="openEditTodoModal(<?= intval($task['id']) ?>, <?= htmlspecialchars(json_encode($task['task'], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT), ENT_QUOTES, 'UTF-8') ?>, <?= intval($task['priority_id']) ?>, <?= intval($task['category_id']) ?>)">ToDo szerkesztése</button>
                         </form>
                     </div>
                 <?php endforeach; ?>
@@ -159,7 +159,8 @@
             </div>
             <form id="taskForm" method="POST" action="../Backend/createCategory.php">
                 <label for="categoryName">Kategória neve:</label>
-                <input type="text" id="categoryName" name="categoryName" required>
+                <input type="text" id="categoryName" name="categoryName"  class="form-control" required>
+                <br></br>
                 <button type="submit" class="btn">Létrehozás</button>
             </form>
         </div>
@@ -212,6 +213,39 @@
         </div>
     </div>
 
+    <!-- ToDo szerkesztése modal -->
+    <div class="modal-overlay" id="editTodoModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>ToDo szerkesztése</h3>
+                <span class="close" id="closeEditTodoModal">&times;</span>
+            </div>
+            <form id="editTodoForm" method="POST" action="../Backend/saveEdit.php">
+                <input type="hidden" name="task_id" id="editTaskId">
+                <label for="editToDoInput">ToDo szövege:</label>
+                <input type="text" id="editToDoInput" name="toDoInput" class="form-control" required>
+                <br></br>
+                <label for="editFontossagi">Fontosság:</label>
+                <select name="fontossagi" id="editFontossagi" class="form-control">
+                    <option value="5">Rendkívül fontos</option>
+                    <option value="4">Nagyon fontos</option>
+                    <option value="3">Fontos</option>
+                    <option value="2">Nem annyira fontos</option>
+                    <option value="1">Hanyatló</option>
+                </select>
+                <br></br>
+                <label for="editCategory">Kategória:</label>
+                <select name="category" id="editCategory" class="form-control" required>
+                    <?php foreach ($categories as $category): ?>
+                        <option value="<?php echo htmlspecialchars($category['id']); ?>"><?php echo htmlspecialchars($category['category_name']); ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <br></br>
+                <button type="button" class="btn btn-cancel" id="closeEditTodoModalBtn">Mégse</button>
+                <button type="submit" class="btn">Mentés</button>
+            </form>
+        </div>
+    </div>
 <script>
     // Placeholder
     function alertPlace() {
@@ -264,6 +298,23 @@
         if (event.target == document.getElementById("categoryListModal")) {
             document.getElementById("categoryListModal").classList.remove('active');
         }
+    }
+
+    // ToDo szerkesztése modal
+    function openEditTodoModal(taskId, taskText, priorityId, categoryId) {
+        document.getElementById("editTaskId").value = taskId;
+        document.getElementById("editToDoInput").value = taskText;
+        document.getElementById("editFontossagi").value = priorityId;
+        document.getElementById("editCategory").value = categoryId;
+        document.getElementById("editTodoModal").classList.add('active');
+    }
+
+    document.getElementById("closeEditTodoModal").onclick = function() {
+        document.getElementById("editTodoModal").classList.remove('active');
+    }
+
+    document.getElementById("closeEditTodoModalBtn").onclick = function() {
+        document.getElementById("editTodoModal").classList.remove('active');
     }
 </script>
 <script src="sitetheme.js"></script>
