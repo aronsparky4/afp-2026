@@ -93,6 +93,7 @@
         <p>Válassz az opciók közül.</p>
         <a href="index.php" class="btn">Régi ToDo oldalra</a>
         <a class="btn" href="index_v2.php">Új ToDo oldalra</a>
+        <a class="btn" onclick="openTeamsModal()">Csapatok</a>
         <a class="btn" id="editUserBtn" onclick="openModal()">Felhasználó módosítása</a>
 
     </section>
@@ -125,7 +126,41 @@
             </div>
         </div>
     </div>
-
+    
+    <div class="modal-overlay" id="teamsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Csapatok</h3>
+                <span class="close" id="closeTeamsModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <label for="teamName">Csapat neve:</label>
+                <input type="text" id="teamName" name="teamName" class="form-control" required>
+                <br></br>
+                <label for="teamCode">Csatlakozási kód:</label>
+                <input type="text" id="teamCode" name="teamCode" class="form-control" required>
+                <br></br>
+            </div>
+            <br>
+            <div class="modal-body">
+                <h4>Csapatok listája:</h4>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Csapat neve</h5>
+                        <p class="card-text">Csapat leírása</p>
+                        <span class="badge" style="margin-top: 8px;">Role: Rookie</span>
+                    </div>
+                </div>
+                <button type="button" class="btn" id="leaveTeamBtn">Csapat elhagyása</button>
+                <button type="button" class="btn" id="deleteTeamBtn">Csapat törlése</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-cancel" style="margin-top: 10px;" id="closeModal">Bezárás</button>
+                <button type="button" class="btn" id="createTeamBtn" style="margin-top: 10px;">Csapat létrehozása</button>
+                <button type="button" class="btn" id="createTeamBtn" style="margin-top: 10px;">Csatlakozás</button>
+            </div>
+        </div>
+    </div>
 <script>
     function openModal() {
         document.getElementById('editModal').classList.add('active');
@@ -138,6 +173,20 @@
     window.onclick = function(event) {
         if (event.target == document.getElementById('editModal')) {
             document.getElementById('editModal').classList.remove('active');
+        }
+    }
+
+    function openTeamsModal() {
+        document.getElementById('teamsModal').classList.add('active');
+    }
+
+    document.getElementById('closeTeamsModal').onclick = function() {
+        document.getElementById('teamsModal').classList.remove('active');
+    } 
+
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('teamsModal')) {
+            document.getElementById('teamsModal').classList.remove('active');
         }
     }
 </script>
