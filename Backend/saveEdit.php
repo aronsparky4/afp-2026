@@ -6,7 +6,19 @@
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+        if ($_SESSION['team_id'] !== null) {
+            $lekerdezes = $connection->prepare("SELECT role FROM team_members WHERE user_id = ? AND team_id = ?");
+            $lekerdezes->bind_param("ii",  $_SESSION['user_id'], $_SESSION['team_id']);
+            $lekerdezes->execute();
+            $role_result = $lekerdezes->get_result();
+            $role_row = $role_result->fetch_assoc();
+            $user_role = $role_row['role'];
 
+            if ($user_role !== 'admin' && $user_role !== 'member') {
+                header("Location: ../Frontend/index_v2.php?error=not_allowed");
+                exit();
+            }
+        }
         if (!isset($_POST["toDoInput"]) || !isset($_POST["fontossagi"]) || !isset($_POST["category"]) || !isset($_POST["task_id"])) {
             Header("Location: ../Frontend/index_v2.php?hiba=missing");
             exit;

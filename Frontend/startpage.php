@@ -134,30 +134,50 @@
                 <span class="close" id="closeTeamsModal">&times;</span>
             </div>
             <div class="modal-body">
-                <label for="teamName">Csapat neve:</label>
-                <input type="text" id="teamName" name="teamName" class="form-control" required>
+                <form action="../Backend/addTeam.php" method="POST">
+                    <label for="teamName">Csapat neve:</label>
+                    <input type="text" id="teamName" name="teamName" class="form-control" required>
+                    <button type="submit" class="btn" id="createTeamBtn" style="margin-top: 10px;">Csapat létrehozása</button>
+                </form>
+
                 <br></br>
-                <label for="teamCode">Csatlakozási kód:</label>
-                <input type="text" id="teamCode" name="teamCode" class="form-control" required>
+
+                <form action="../Backend/joinTeam.php" method="POST">
+                    <label for="teamCode">Csatlakozási kód:</label>
+                    <input type="text" id="teamCode" name="teamCode" class="form-control" required>
+                    <button type="submit" class="btn" id="joinTeamBtn" style="margin-top: 10px;">Csatlakozás</button>
+                </form>
                 <br></br>
             </div>
             <br>
             <div class="modal-body">
                 <h4>Csapatok listája:</h4>
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Csapat neve</h5>
-                        <p class="card-text">Csapat leírása</p>
-                        <span class="badge" style="margin-top: 8px;">Role: Rookie</span>
-                    </div>
-                </div>
-                <button type="button" class="btn" id="leaveTeamBtn">Csapat elhagyása</button>
-                <button type="button" class="btn" id="deleteTeamBtn">Csapat törlése</button>
+                <?php if ($teams->num_rows > 0): ?>
+                    <?php foreach ($teams as $team): ?>
+                        <form action="../Frontend/index_v2.php" method="POST">
+                        <input type="hidden" name="team_id" value="<?php echo htmlspecialchars($team['id']); ?>">
+                        <div class="card" type="submit" onclick="this.closest('form').submit();">
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo htmlspecialchars($team['team_name']); ?></h5>
+                                <span class="badge" style="margin-top: 8px;">Role: <?php echo htmlspecialchars($team['role']); ?></span>
+                            </div>
+                        </div>
+                        </form>
+                        <form action="../Backend/leaveTeam.php" method="POST">
+                            <input type="hidden" name="team_id" value="<?php echo htmlspecialchars($team['id']); ?>">
+                            <button type="submit" class="btn" id="leaveTeamBtn">Csapat elhagyása</button>
+                        </form>
+                        <form action="../Backend/deleteTeam.php" method="POST">
+                            <input type="hidden" name="team_id" value="<?php echo htmlspecialchars($team['id']); ?>">
+                            <button type="submit" class="btn" id="deleteTeamBtn">Csapat törlése</button>
+                        </form>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>Nincs csapatod.</p>
+                <?php endif; ?>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-cancel" style="margin-top: 10px;" id="closeModal">Bezárás</button>
-                <button type="button" class="btn" id="createTeamBtn" style="margin-top: 10px;">Csapat létrehozása</button>
-                <button type="button" class="btn" id="createTeamBtn" style="margin-top: 10px;">Csatlakozás</button>
             </div>
         </div>
     </div>

@@ -70,6 +70,40 @@
         <a href="../Backend/logout.php" class="btn">Kijelentkezés</a>
     </div>
     </header>
+            <?php if(!empty($_SESSION["team_id"])): ?>
+                <?php
+                $lekerdezes = $connection->prepare("SELECT users.username, users.id, team_members.role, team_members.team_id, team_members.user_id FROM team_members JOIN users ON team_members.user_id = users.id WHERE team_members.team_id = ?");
+                $lekerdezes->bind_param("i", $_SESSION["team_id"]);
+                $lekerdezes->execute();
+                $members = $lekerdezes->get_result();
+                ?>
+                <form method="POST" action="../Backend/kickMember.php">
+                    <input type="hidden" name="team_id" value="<?php echo htmlspecialchars($_SESSION["team_id"]); ?>">
+                    <select name="member_id" required>
+                        <?php foreach ($members as $member): ?>
+                            <option value="<?php echo htmlspecialchars($member['user_id']); ?>"><?php echo htmlspecialchars($member['username']); ?> (<?php echo htmlspecialchars($member['role']); ?>)</option>
+                        <?php endforeach; ?>
+                    </select>
+                    <button type="submit"  class="btn">Tag kirúgása</button>
+                </form>
+                <br>
+                <form method="POST" action="../Backend/changeRole.php">
+                    <input type="hidden" name="team_id" value="<?php echo htmlspecialchars($_SESSION["team_id"]); ?>">
+                    <select name="member_id" required>
+                        <?php foreach ($members as $member): ?>
+                            <option value="<?php echo htmlspecialchars($member['user_id']); ?>"><?php echo htmlspecialchars($member['username']); ?> (<?php echo htmlspecialchars($member['role']); ?>)</option>
+                        <?php endforeach; ?>
+                    </select>
+                    <select name="new_role" required>
+                        <option value="admin">Admin</option>
+                        <option value="member">Member</option>
+                        <option value="viewer">Viewer</option>
+                    </select>
+                    <button type="submit"  class="btn">Tag szerepkörének módosítása</button>
+                </form>
+            <?php endif; ?>
+            <br>
+
             <form action="../Backend/deleteCategory.php" method="POST">
                  <select name="category_id" required>
 
