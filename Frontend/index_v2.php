@@ -240,6 +240,9 @@
                 <span class="close" id="closeCategoryListModal">&times;</span>
             </div>
             <ul>
+                <?php if ($categories->num_rows === 0): ?>
+                    <li>Nincsenek kategóriák.</li>
+                <?php endif; ?>
                 <?php foreach ($categories as $category): ?>
                     <li><?php echo htmlspecialchars($category['category_name']); ?> (<?php echo $category['task_count'] ?? 0 ?> feladat)</li>
                 <?php endforeach; ?>

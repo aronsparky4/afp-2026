@@ -59,35 +59,6 @@
             <a href="../Backend/logout.php" class="btn">Kijelentkezés</a>
         </div>
     </header>
-    
-    <div class="column">
-        <form action="../Backend/addTeam.php" method="POST">
-            <input type="text" name="teamName" placeholder="Új csapat neve" required>
-            <button type="submit" class="btn">Csapat létrehozása</button>
-        </form>
-        <form action="../Backend/joinTeam.php" method="POST">
-            <input type="text" name="teamCode" placeholder="Csatlakozási kód" required>
-            <button type="submit" class="btn">Csatlakozás csapathoz</button>
-        </form>
-        <div class="column-header">
-            <h2>Teams:</h2>
-        </div>
-        <?php if ($teams->num_rows > 0): ?>
-            <?php foreach ($teams as $team): ?>
-                <form action="../Frontend/index_v2.php" method="POST">
-                    <input type="hidden" name="team_id" value="<?php echo htmlspecialchars($team['id']); ?>">
-                    <div class="card" type="submit" onclick="this.closest('form').submit();">
-                        <span><?php echo htmlspecialchars($team['team_name']); ?></span>
-                        <span class="badge" style="margin-top: 8px;">Role: <?php echo htmlspecialchars($team['role']); ?></span>
-                    </div>
-                </form>
-            <?php endforeach; ?>
-        <?php endif; ?>
-        <div class="card">
-            <span>Példa Csapat</span>
-            <span class="badge" style="margin-top: 8px;">Role: Rookie</span>
-        </div>
-    </div>
     <section class="hero">
         <h1>ToDo-Lista - PHP & SQL</h1>
         <p>Válassz az opciók közül.</p>
