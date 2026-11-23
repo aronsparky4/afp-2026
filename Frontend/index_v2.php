@@ -156,12 +156,11 @@
                 <?php endif; ?>
                 <?php foreach ($tasks as $task): ?>
                     <div class="card" style='margin-bottom: 10px;'>
-                        <!-- ToDo Checkbox, késznek van jelölve -->
-                        <input type="checkbox" name="is_done" style="pointer-events: none;" <?= $task['is_done'] ? 'checked' : '' ?>>
                         <!-- ToDo szöveg -->
                         <span><?= htmlspecialchars($task['task']) ?></span>
                         <!-- ToDo kategória és fontosság -->
                         <span class="tag tag-feature"><?= htmlspecialchars($task['priority_name']) ?></span>
+                        <span class="tag tag-feature"><?= $task['is_done'] ? 'Kész' : 'Nincs kész' ?></span>
                         <!-- ToDo késznek jelölés gomb -->
                         <form action="../Backend/isDone.php" method="POST">
                             <input type="hidden" name="is_done" value="<?= $task['is_done'] ? 0 : 1 ?>">
