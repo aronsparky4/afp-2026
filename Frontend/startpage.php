@@ -78,19 +78,19 @@
             <div class="modal-body">
                 <form id="editUserForm" method="POST" action="../Backend/modifyUser.php">
                     <label for="username">Felhasználónév:</label>
-                    <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($_SESSION['username']); ?>" required>
+                    <input type="text" id="username" name="username" class="form-control" value="<?php echo htmlspecialchars($_SESSION['username']); ?>" required>
                     <br>
                     <label for="email">Email cím:</label>
-                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($_SESSION['email']); ?>" required>
+                    <input type="email" id="email" name="email" class="form-control" value="<?php echo htmlspecialchars($_SESSION['email']); ?>" required>
                     <br>
                     <label for="oldPassword">Jelenlegi jelszó:</label>
-                    <input type="password" id="oldPassword" name="oldPassword" required>
+                    <input type="password" id="oldPassword" name="oldPassword" class="form-control" required>
                     <br>
                     <label for="newPassword">Új jelszó:</label>
-                    <input type="password" id="newPassword" name="newPassword" required>
+                    <input type="password" id="newPassword" name="newPassword" class="form-control" required>
                     <br>
                     <label for="confirmPassword">Jelszó megerősítése:</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
                     <br>
                     <button type="submit" class="btn">Módosítás</button>
                 </form>
