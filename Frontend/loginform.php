@@ -84,7 +84,7 @@
                     ?>
                 </p>
             <?php endif; ?>
-            <input type="submit" name="" class="btn" value="Bejelentkezés">
+            <input type="submit" name="" class="btn" style="font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;" value="Bejelentkezés">
             <a href="registerform.php" class="btn">Regisztráció</a>
         </form>
         </div>

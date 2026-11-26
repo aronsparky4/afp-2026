@@ -62,7 +62,8 @@
     </div>
     <div style="display: flex; gap: 8px;">
         <?php if (isset($team['team_name'])): ?>
-            <span class="btn btn-secondary">Team: <?php echo htmlspecialchars($team['team_name']); ?><br>Join Code: <?php echo htmlspecialchars($team['join_code'] ?? ''); ?></span>
+            <span class="btn btn-secondary">Csapat: <?php echo htmlspecialchars($team['team_name']); ?></span>
+            <span class="btn btn-secondary">Csatlakozási kód: <?php echo htmlspecialchars($team['join_code'] ?? ''); ?></span>
         <?php endif; ?>
         <a href="startpage.php" class="btn btn-secondary" style="text-decoration: none;"><span>Bejelentkezve: <?php echo htmlspecialchars($_SESSION['username']); ?></span></a>
         <a class="btn" href="#" onclick="openCategoryModal(event)">+ Új kategória</a>
@@ -84,7 +85,7 @@
                             <option value="<?php echo htmlspecialchars($member['user_id']); ?>"><?php echo htmlspecialchars($member['username']); ?> (<?php echo htmlspecialchars($member['role']); ?>)</option>
                         <?php endforeach; ?>
                     </select>
-                    <button type="submit"  class="btn">Tag kirúgása</button>
+                    <button type="submit" class="btn" style="font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;">Tag kirúgása</button>
                 </form>
                 <br>
                 <form method="POST" action="../Backend/changeRole.php">
@@ -165,16 +166,19 @@
                         <form action="../Backend/isDone.php" method="POST">
                             <input type="hidden" name="is_done" value="<?= $task['is_done'] ? 0 : 1 ?>">
                             <input type="hidden" name="task_id" value="<?= intval($task['id']) ?>">
-                            <button type="submit" class="btn btn-secondary">Késznek jelölés</button>
+                            <button type="submit" class="btn btn-secondary" style="font-family: -apple-system, BlinkMacSystemFont, 
+                            Segoe UI, Roboto, Helvetica, Arial, sans-serif;">Késznek jelölés</button>
                         </form>
                         <!-- ToDo törlés gomb -->
                         <form action="../Backend/deleteToDo.php" method="POST">
                             <input type="hidden" name="task_id" value="<?= intval($task['id']) ?>">
-                            <button type="submit" class="btn btn-secondary">ToDo törlése</button>
+                            <button type="submit" class="btn btn-secondary" style="font-family: -apple-system, BlinkMacSystemFont, 
+                            Segoe UI, Roboto, Helvetica, Arial, sans-serif;">ToDo törlése</button>
                         </form>
                         <form action="../Frontend/editToDo.php" method="post">
                             <input type="hidden" name="task_id" value="<?= intval($task['id']) ?>">
-                            <button type="button" class="btn btn-secondary" onclick="openEditTodoModal(<?= intval($task['id']) ?>, <?= htmlspecialchars(json_encode($task['task'], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT), ENT_QUOTES, 'UTF-8') ?>, <?= intval($task['priority_id']) ?>, <?= intval($task['category_id']) ?>)">ToDo szerkesztése</button>
+                            <button type="button" class="btn btn-secondary" style="font-family: -apple-system, BlinkMacSystemFont, 
+                            Segoe UI, Roboto, Helvetica, Arial, sans-serif;" onclick="openEditTodoModal(<?= intval($task['id']) ?>, <?= htmlspecialchars(json_encode($task['task'], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT), ENT_QUOTES, 'UTF-8') ?>, <?= intval($task['priority_id']) ?>, <?= intval($task['category_id']) ?>)">ToDo szerkesztése</button>
                         </form>
                     </div>
                 <?php endforeach; ?>
@@ -194,7 +198,7 @@
                 <label for="categoryName">Kategória neve:</label>
                 <input type="text" id="categoryName" name="categoryName"  class="form-control" required>
                 <br></br>
-                <button type="submit" class="btn">Létrehozás</button>
+                <button type="submit" class="btn" style="font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;">Létrehozás</button>
             </form>
         </div>
     </div>
@@ -225,8 +229,8 @@
                     <?php endforeach; ?>
                 </select>
                 <br></br>
-                <button type="button" class="btn btn-cancel" id="closeTodoAddModal">Mégse</button>
-                <button type="submit" class="btn">Létrehozás</button>
+                <button type="button" class="btn btn-cancel" id="closeTodoAddModal" style="font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;">Mégse</button>
+                <button type="submit" class="btn" style="font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;">Létrehozás</button>
             </form>
         </div>
     </div>
@@ -277,8 +281,8 @@
                     <?php endforeach; ?>
                 </select>
                 <br></br>
-                <button type="button" class="btn btn-cancel" id="closeEditTodoModalBtn">Mégse</button>
-                <button type="submit" class="btn">Mentés</button>
+                <button type="button" class="btn btn-cancel" id="closeEditTodoModalBtn" style="font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;">Mégse</button>
+                <button type="submit" class="btn" style="font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;">Mentés</button>
             </form>
         </div>
     </div>

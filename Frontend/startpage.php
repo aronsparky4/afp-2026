@@ -92,7 +92,8 @@
                     <label for="confirmPassword">Jelszó megerősítése:</label>
                     <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
                     <br>
-                    <button type="submit" class="btn">Módosítás</button>
+                    <button type="submit" class="btn" style="font-family: -apple-system, 
+                    BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;">Módosítás</button>
                 </form>
             </div>
         </div>
@@ -136,11 +137,13 @@
                         </form>
                         <form action="../Backend/leaveTeam.php" method="POST">
                             <input type="hidden" name="team_id" value="<?php echo htmlspecialchars($team['id']); ?>">
-                            <button type="submit" class="btn" id="leaveTeamBtn">Csapat elhagyása</button>
+                            <button type="submit" class="btn" id="leaveTeamBtn" style="font-family: -apple-system, BlinkMacSystemFont, 
+                            Segoe UI, Roboto, Helvetica, Arial, sans-serif;">Csapat elhagyása</button>
                         </form>
                         <form action="../Backend/deleteTeam.php" method="POST">
                             <input type="hidden" name="team_id" value="<?php echo htmlspecialchars($team['id']); ?>">
-                            <button type="submit" class="btn" id="deleteTeamBtn">Csapat törlése</button>
+                            <button type="submit" class="btn" id="deleteTeamBtn" style="font-family: -apple-system, BlinkMacSystemFont, 
+                            Segoe UI, Roboto, Helvetica, Arial, sans-serif;">Csapat törlése</button>
                         </form>
                     <?php endforeach; ?>
                 <?php else: ?>
