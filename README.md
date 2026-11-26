@@ -23,7 +23,7 @@ Egy szimpla ToDo lista ami böngészőn keresztül localhost kapcsolattal fut. A
 Csapatokat az oldal főoldalján hozhat létre, valamint csatlakozhat egy kóddal. Az csapat admin tud egy tagnak szerepkört módosítani (Admin/Viewer/Member) vagy tagokat kirúgni
 
 ## ⌨️Használat:
-Mivel ez localhost-on keresztül fut, ezért szükséges XAMPP letöltése (Linux: elég ha a mySQL és az apache). Az oldal tartalmait a `C:/xampp/htdocs` mappába kell berakni (linuxon a `/var/html/www` + írási engedély)
+Mivel ez localhost-on keresztül fut, ezért szükséges XAMPP letöltése (Linux: elég ha a mySQL és az apache vannak letöltve). Az oldal tartalmait a `C:/xampp/htdocs` mappába kell berakni (linuxon a `/var/html/www` + írási engedély)
 
 ## 🗞️Dokumentáció
 Az oldal dokumentációja a `Documents` mappában
